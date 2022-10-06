@@ -52,14 +52,15 @@ const gestationalDiabetesMenu = async (
 				98. Go back`,
 				language
 			)
-			await sendSMS(phoneNumber, response)
+			await sendSMS(phoneNumber, response.replace('98. Go back', ''))
 		} else if (textArray[1] == 2) {
 			response = await translate(
 				`Gestational diabetes usually doesn’t have any symptoms. If you’re pregnant, your doctor should test you for gestational diabetes between 24 and 28 weeks of pregnancy. If needed, you can make changes to protect your health and your baby’s health
 				98. Go back`,
 				language
 			)
-			await sendSMS(phoneNumber, response)
+			//remove 98. Go back from the response
+			await sendSMS(phoneNumber, response.replace('98. Go back', ''))
 		} else if (textArray[1] == 3) {
 			response = await translate(
 				`Your body mass index (BMI) is 30 or higher
@@ -70,7 +71,7 @@ const gestationalDiabetesMenu = async (
 				98. Go back`,
 				language
 			)
-			await sendSMS(phoneNumber, response)
+			await sendSMS(phoneNumber, response.replace('98. Go back', ''))
 		}
 	}
 
