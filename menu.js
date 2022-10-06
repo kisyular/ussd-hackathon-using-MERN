@@ -201,7 +201,7 @@ const registerMenu = async (textArray, phoneNumber, language) => {
 			response = `END An error occured. Please try again`
 		}
 	} else {
-		response = `CON Invalid entry. Please try again`
+		response = `Invalid entry. Please try again`
 	}
 
 	return response
