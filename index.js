@@ -39,7 +39,7 @@ app.use(function (req, res, next) {
 connectDB()
 
 //create a route for get request and respond with a message
-app.get('/', (req, res) => {
+app.get('/ussd', (req, res) => {
 	res.send('Welcome to the USSD API')
 })
 
