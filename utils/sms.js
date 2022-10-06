@@ -2,7 +2,7 @@ const dotenv = require('dotenv')
 dotenv.config()
 const credentials = {
 	apiKey: process.env.API_KEY,
-	username: process.env.AT_USERNAME,
+	username: process.env.AT_USERNAME || 'sandbox',
 }
 
 // Initialize the SDK
