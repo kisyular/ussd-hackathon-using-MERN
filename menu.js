@@ -5,6 +5,14 @@ const USSDLevel = require('./models/USSDSessions')
 
 let response = ''
 // change city to county in Kenya
+const mainMenuNotregistered = () => {
+	response = `Welcome to ${process.env.COMPANY_NAME}. To continue in English, press 1. Kwa Kiswahili, bonyeza 2
+	1. English
+	2. Kiswahili
+	3. Emergency
+	4. Exit`
+	return response
+}
 
 const mainMenuRegistered = async (name, language) => {
 	response = await translate(
@@ -15,15 +23,6 @@ const mainMenuRegistered = async (name, language) => {
 		4. Exit`,
 		language
 	)
-	return response
-}
-
-const mainMenuNotregistered = () => {
-	response = `Welcome to ${process.env.COMPANY_NAME}. To continue in English, press 1. Kwa Kiswahili, bonyeza 2
-	1. English
-	2. Kiswahili
-	3. Emergency
-	4. Exit`
 	return response
 }
 
