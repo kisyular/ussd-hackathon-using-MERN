@@ -19,7 +19,7 @@ const mainMenuRegistered = async (name, language) => {
 		`CON Welcome ${name}, what would you like to check
 		1. Learn about Gestational Diabetes
 		2. Nearby health facilities in the county
-		3. Settings
+		3. Change Settings
 		4. Exit`,
 		language
 	)
@@ -149,48 +149,6 @@ const settingMenu = async (textArray, language, user) => {
 	return response
 }
 
-const languageSettingMenu = async (textArray, phoneNumber) => {
-	const level = textArray.length
-	if (level === 1) {
-		response = `CON Choose your language
-		1. English
-		2. Kiswahili
-		3. Exit`
-	} else if (level === 2) {
-		//update the user language
-		if (textArray[1] == 1) {
-			//persist user language using try catch
-			try {
-				await User.findOneAndUpdate(
-					{ phoneNumber },
-					{ language: 'en' },
-					{ new: true }
-				)
-				response = `CON Your language has been updated to English
-				99. Go to main menu`
-			} catch (error) {
-				console.log('error: ', error)
-			}
-		} else if (textArray[1] == 2) {
-			//persist user language
-			try {
-				await User.findOneAndUpdate(
-					{ phoneNumber },
-					{ language: 'sw' },
-					{ new: true }
-				)
-				response = `CON Lugha yako imebadilishwa kwa Kiswahili kwa mafanikio
-				99. Rudi kwenye menyu kuu`
-			} catch (error) {
-				console.log('error: ', error)
-			}
-		} else if (textArray[1] == 3) {
-			response = `END Thank you for using ${process.env.COMPANY_NAME}`
-		}
-	}
-	return response
-}
-
 const registerMenu = async (textArray, phoneNumber, language) => {
 	const count = textArray.length
 	if (count == 1) {
@@ -280,11 +238,16 @@ const goToMainMenu = (text) => {
 		// console.log('Text from goToMainMenu: ', text)
 		//split the text into an array using * as a delimiter
 		const textArray = text.split('*')
-		//search for 99 in the array and remove it and and all the elements before it
-		const index = textArray.indexOf('99')
+		//search for the last 99 in the array and remove it and all elements before it
+		const index = textArray.lastIndexOf('99')
 		if (index > -1) {
 			textArray.splice(0, index + 1)
 		}
+		//search for 99 in the array and remove it and and all the elements before it
+		// const index = textArray.indexOf('99')
+		// if (index > -1) {
+		// 	textArray.splice(0, index + 1)
+		// }
 		//return the array joined back together using the delimiter "*"
 		return textArray.join('*')
 	} else {
@@ -341,7 +304,6 @@ module.exports = {
 	middleware,
 	// persistInvalidEntry,
 	gestationalDiabetesMenu,
-	languageSettingMenu,
 	nearbyFacilitiesMenu,
 	settingMenu,
 }

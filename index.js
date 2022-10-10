@@ -18,8 +18,7 @@ const {
 	// persistInvalidEntry,
 	gestationalDiabetesMenu,
 	nearbyFacilitiesMenu,
-	otherOptionMenu,
-	languageSettingMenu,
+	settingMenu,
 } = require('./menu')
 const sendSMS = require('./utils/sms.js')
 
@@ -65,7 +64,6 @@ app.post('/', async (req, res) => {
 			response = await gestationalDiabetesMenu(
 				textArray,
 				language,
-				user,
 				phoneNumber
 			)
 		} else if (cleanText[0] == 2) {
