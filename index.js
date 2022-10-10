@@ -76,12 +76,7 @@ app.post('/', async (req, res) => {
 				phoneNumber
 			)
 		} else if (cleanText[0] == 3) {
-			response = await otherOptionMenu(
-				textArray,
-				language,
-				user,
-				phoneNumber
-			)
+			response = await settingMenu(textArray, language, user)
 		} else if (cleanText[0] == 4) {
 			response = await languageSettingMenu(textArray, phoneNumber)
 		} else {

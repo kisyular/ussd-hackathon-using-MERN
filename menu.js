@@ -11,9 +11,8 @@ const mainMenuRegistered = async (name, language) => {
 		`CON Welcome ${name}, what would you like to check
 		1. Learn about Gestational Diabetes
 		2. Nearby health facilities in the county
-		3. Other
-		4. Change language
-		5. Exit`,
+		3. Settings
+		4. Exit`,
 		language
 	)
 	return response
@@ -28,12 +27,7 @@ const mainMenuNotregistered = () => {
 	return response
 }
 
-const gestationalDiabetesMenu = async (
-	textArray,
-	language,
-	user,
-	phoneNumber
-) => {
+const gestationalDiabetesMenu = async (textArray, language, phoneNumber) => {
 	const level = textArray.length
 	if (level === 1) {
 		response = await translate(
@@ -63,11 +57,11 @@ const gestationalDiabetesMenu = async (
 			await sendSMS(phoneNumber, response.replace('98. Go back', ''))
 		} else if (textArray[1] == 3) {
 			response = await translate(
-				`Your body mass index (BMI) is 30 or higher
-				You have previously given birth to a baby weighing 4.5 kg or more
-				Have had gestational diabetes before
-				Have a relative with diabetes
-				Are of African, south Asian, or latino
+				`1. Your body mass index (BMI) is 30 or higher
+				2. You have previously given birth to a baby weighing 4.5 kg or more
+				3. Have had gestational diabetes before
+				4. Have a relative with diabetes
+				5. Are of African, south Asian, or latino
 				98. Go back`,
 				language
 			)
@@ -99,14 +93,59 @@ const nearbyFacilitiesMenu = async (textArray, language, user, phoneNumber) => {
 	return response
 }
 
-const otherOptionMenu = async (textArray, language, user) => {
-	const name = user.name
+const settingMenu = async (textArray, language, user) => {
 	const level = textArray.length
 	if (level === 1) {
 		response = await translate(
-			`END ${name} we will share information about other options`,
+			`CON Settings
+		1. Change language
+		2. Change county`,
 			language
 		)
+	} else if (level === 2) {
+		if (textArray[1] == 1) {
+			response = await translate(
+				`CON Change language
+			1. English
+			2. Kiswahili`,
+				language
+			)
+		} else if (textArray[1] == 2) {
+			response = await translate(`CON Enter your county`, language)
+		}
+	} else if (level === 3) {
+		if (textArray[1] == 1) {
+			if (textArray[2] == 1) {
+				try {
+					user.language = 'en'
+					await user.save()
+					response = `CON Your language has been updated to English
+					99. Go to main menu`
+				} catch (error) {
+					console.log('error: ', error)
+				}
+			} else if (textArray[2] == 2) {
+				try {
+					user.language = 'sw'
+					await user.save()
+					response = `CON Lugha yako imebadilishwa kwa Kiswahili kwa mafanikio
+					99. Rudi kwenye menyu kuu`
+				} catch (error) {
+					console.log('error: ', error)
+				}
+			}
+		} else if (textArray[1] == 2) {
+			try {
+				user.county = textArray[2]
+				await user.save()
+				response = await translate(
+					`CON Your county has been updated to ${textArray[2]}`,
+					language
+				)
+			} catch (error) {
+				console.log('error: ', error)
+			}
+		}
 	}
 	return response
 }
@@ -304,6 +343,6 @@ module.exports = {
 	// persistInvalidEntry,
 	gestationalDiabetesMenu,
 	languageSettingMenu,
-	otherOptionMenu,
 	nearbyFacilitiesMenu,
+	settingMenu,
 }
