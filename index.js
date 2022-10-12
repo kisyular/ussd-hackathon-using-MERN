@@ -7,7 +7,7 @@ const connectDB = require('./config/db.js')
 require('dotenv').config()
 
 //import user.js from util
-const { isRegistered, readUserName } = require('./utils/user')
+const { isRegistered } = require('./utils/user')
 const User = require('./models/user')
 //import menu.js
 const {
@@ -15,12 +15,10 @@ const {
 	mainMenuNotregistered,
 	registerMenu,
 	middleware,
-	// persistInvalidEntry,
 	gestationalDiabetesMenu,
-	nearbyFacilitiesMenu,
 	settingMenu,
+	subscribeMenu,
 } = require('./menu')
-const sendSMS = require('./utils/sms.js')
 
 const app = express()
 app.use(bodyParser.json())
@@ -50,8 +48,11 @@ app.post('/', async (req, res) => {
 	const user = await User.findOne({ phoneNumber })
 
 	let response = ''
+	if (cleanText === 'EXITMENU') {
+		response = 'END Thank you for using this service'
+	}
 	//If user is registered and cleanText is empty
-	if (cleanText == '' && userIsRegistered) {
+	else if (cleanText == '' && userIsRegistered) {
 		const language = user.language
 		//pass language to the mainMenuRegistered function
 		response = await mainMenuRegistered(user.name, language)
@@ -67,16 +68,14 @@ app.post('/', async (req, res) => {
 				phoneNumber
 			)
 		} else if (cleanText[0] == 2) {
-			response = await nearbyFacilitiesMenu(
-				textArray,
-				language,
-				user,
-				phoneNumber
-			)
-		} else if (cleanText[0] == 3) {
 			response = await settingMenu(textArray, language, user)
-		} else if (cleanText[0] == 4) {
-			response = await languageSettingMenu(textArray, phoneNumber)
+		} else if (cleanText[0] == 3) {
+			response = await subscribeMenu(
+				textArray,
+				phoneNumber,
+				user,
+				language
+			)
 		} else {
 			response = 'END Invalid option'
 		}
@@ -100,18 +99,12 @@ app.post('/', async (req, res) => {
 				phoneNumber,
 				'sw'
 			)}`
-		} else if (cleanText == '3') {
-			//End the session
-			response = `END Please call the hotline for assistance. Thank you.`
-			await sendSMS('+254700000000', `New user: ${phoneNumber}`)
-		} else if (cleanText == '4') {
-			response = `END Thank you for using the service.`
+		} else if (cleanText[0] == '3') {
+			response = `END Please call 999 112 or 911.`
+		} else if (cleanText[0] == '4') {
+			response = `END Our plan was to connect the patient with a couple gyenacologist. If we move forward to the next phase, we will consult 4 gyenacologist for their services.`
 		} else {
-			response = `END Invalid entry. Please try again \n${mainMenuNotregistered()}`
-			// const ussdLevel = text.split('*').length - 1
-			// console.log('ussdLevel: ', ussdLevel)
-			// //persist invalid entry
-			// await persistInvalidEntry(phoneNumber, 'en', sessionId, ussdLevel)
+			response = `END Invalid entry. Please try again`
 		}
 	}
 	res.send(response)

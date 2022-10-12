@@ -25,6 +25,14 @@ const UserSchema = new Schema({
 		type: Number,
 		default: 0,
 	},
+	subscribed: {
+		type: Boolean,
+		default: false,
+	},
+	frequency: {
+		type: String,
+		default: '',
+	},
 	registeredOn: {
 		type: Date,
 		default: Date.now,

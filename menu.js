@@ -1,7 +1,6 @@
 const User = require('./models/user')
 const translate = require('./utils/translate')
 const sendSMS = require('./utils/sms')
-const USSDLevel = require('./models/USSDSessions')
 
 let response = ''
 // change city to county in Kenya
@@ -9,143 +8,9 @@ const mainMenuNotregistered = () => {
 	response = `Welcome to ${process.env.COMPANY_NAME}. To continue in English, press 1. Kwa Kiswahili, bonyeza 2
 	1. English
 	2. Kiswahili
-	3. Emergency
-	4. Exit`
-	return response
-}
-
-const mainMenuRegistered = async (name, language) => {
-	response = await translate(
-		`CON Welcome ${name}, what would you like to check
-		1. Learn about Gestational Diabetes
-		2. Nearby health facilities in the county
-		3. Change Settings
-		4. Exit`,
-		language
-	)
-	return response
-}
-
-const gestationalDiabetesMenu = async (textArray, language, phoneNumber) => {
-	const level = textArray.length
-	if (level === 1) {
-		response = await translate(
-			`1. What is Gestational Diabetes?
-		2. Symptoms of Gestational Diabetes?
-		3. Risk factors of Gestational Diabetes?
-		4. Diagnosis of Gestational Diabetes?
-		5. Treatment of Gestational Diabetes?
-		6. Prevention of Gestational Diabetes?`,
-			language
-		)
-	} else if (level === 2) {
-		if (textArray[1] == 1) {
-			response = await translate(
-				`A type of diabetes that onsets mid or late pregnancy as the body cannot produce enough of the hormone that controls blood glucose to meet the extra needs of pregnancy hence high blood glucose levels.
-				98. Go back`,
-				language
-			)
-			await sendSMS(phoneNumber, response.replace('98. Go back', ''))
-		} else if (textArray[1] == 2) {
-			response = await translate(
-				`Gestational diabetes usually doesn’t have any symptoms. If you’re pregnant, your doctor should test you for gestational diabetes between 24 and 28 weeks of pregnancy. If needed, you can make changes to protect your health and your baby’s health
-				98. Go back`,
-				language
-			)
-			//remove 98. Go back from the response
-			await sendSMS(phoneNumber, response.replace('98. Go back', ''))
-		} else if (textArray[1] == 3) {
-			response = await translate(
-				`1. Your body mass index (BMI) is 30 or higher
-				2. You have previously given birth to a baby weighing 4.5 kg or more
-				3. Have had gestational diabetes before
-				4. Have a relative with diabetes
-				5. Are of African, south Asian, or latino
-				98. Go back`,
-				language
-			)
-			await sendSMS(phoneNumber, response.replace('98. Go back', ''))
-		}
-	}
-
-	return `CON ${response}`
-}
-
-const nearbyFacilitiesMenu = async (textArray, language, user, phoneNumber) => {
-	const name = user.name
-	const level = textArray.length
-	if (level === 1) {
-		response = await translate(
-			`CON ${name} we will share information about nearby health facilities
-			99. Go to main menu`,
-			language
-		)
-		const res = await sendSMS(
-			phoneNumber,
-			await translate(
-				`Thank you for your interest. We will share information about about nearby health facilities through SMS shortly`,
-				language
-			)
-		)
-		console.log('res: ', res)
-	}
-	return response
-}
-
-const settingMenu = async (textArray, language, user) => {
-	const level = textArray.length
-	if (level === 1) {
-		response = await translate(
-			`CON Settings
-		1. Change language
-		2. Change county`,
-			language
-		)
-	} else if (level === 2) {
-		if (textArray[1] == 1) {
-			response = await translate(
-				`CON Change language
-			1. English
-			2. Kiswahili`,
-				language
-			)
-		} else if (textArray[1] == 2) {
-			response = await translate(`CON Enter your county`, language)
-		}
-	} else if (level === 3) {
-		if (textArray[1] == 1) {
-			if (textArray[2] == 1) {
-				try {
-					user.language = 'en'
-					await user.save()
-					response = `CON Your language has been updated to English
-					99. Go to main menu`
-				} catch (error) {
-					console.log('error: ', error)
-				}
-			} else if (textArray[2] == 2) {
-				try {
-					user.language = 'sw'
-					await user.save()
-					response = `CON Lugha yako imebadilishwa kwa Kiswahili kwa mafanikio
-					99. Rudi kwenye menyu kuu`
-				} catch (error) {
-					console.log('error: ', error)
-				}
-			}
-		} else if (textArray[1] == 2) {
-			try {
-				user.county = textArray[2]
-				await user.save()
-				response = await translate(
-					`CON Your county has been updated to ${textArray[2]}`,
-					language
-				)
-			} catch (error) {
-				console.log('error: ', error)
-			}
-		}
-	}
+	3. Help! Emergency
+	4. Talk to health official
+	100. Exit`
 	return response
 }
 
@@ -153,18 +18,25 @@ const registerMenu = async (textArray, phoneNumber, language) => {
 	const count = textArray.length
 	if (count == 1) {
 		response = await translate(
-			`Welcome to ${process.env.COMPANY_NAME}, what would you like to check
+			`${process.env.COMPANY_NAME} empowers pregnant mothers with knowledge on hypertensive disorders during pregnancy.
 			1. Register
 			98. Go back
-			99. Go to main menu`,
+			99. Go to main menu
+			100. Exit`,
 			language
 		)
 	} else if (count == 2 && textArray[1] == 1) {
-		response = await translate(`Fill your name`, language)
+		response = await translate(
+			`Please enter your first and last name`,
+			language
+		)
 	} else if (count === 3 && textArray[1] == 1) {
-		response = await translate(`Fill your age`, language)
+		response = await translate(`Please enter your age`, language)
 	} else if (count === 4 && textArray[1] == 1) {
-		response = await translate(`Fill your county eg Nairobi`, language)
+		response = await translate(
+			`Please enter your county of residence`,
+			language
+		)
 	} else if (count === 5 && textArray[1] == 1) {
 		const name = textArray[2]
 		const age = textArray[3]
@@ -204,26 +76,262 @@ const registerMenu = async (textArray, phoneNumber, language) => {
 	return response
 }
 
+const mainMenuRegistered = async (name, language) => {
+	response = await translate(
+		`CON Welcome ${name}, ${process.env.COMPANY_NAME} empowers pregnant mothers with knowledge on hypertensive disorders during pregnancy.
+		1. Learn about Gestational Diabetes
+		2. Change settings
+		3. Subscribe to SMS
+		4. Exit`,
+		language
+	)
+	return response
+}
+
+const gestationalDiabetesMenu = async (textArray, language, phoneNumber) => {
+	const level = textArray.length
+	if (level === 1) {
+		response = await translate(
+			`
+			1. Definition of gestational diabetes
+			2. Symptoms of gestational diabetes
+			3. Diagnosis of gestational diabetes
+			4. Risk factors of gestational diabetes
+			5. Treatment of gestational diabetes
+			6. Prevention of gestational diabetes
+			7. Management of gestational diabetes
+			`,
+			language
+		)
+	} else if (level === 2) {
+		if (textArray[1] == 1) {
+			response = await translate(
+				`A type of diabetes that onsets mid or late pregnancy as the body cannot produce enough of the hormone that controls blood glucose and mothers report high glucose levels for the first time.
+				98. Go back`,
+				language
+			)
+			await sendSMS(phoneNumber, response.replace('98. Go back', ''))
+		} else if (textArray[1] == 2) {
+			response = await translate(
+				`Gestational diabetes usually doesn’t have any symptoms but look out for heightened symptoms of pregnancy and repetitive yeast infections.
+				98. Go back`,
+				language
+			)
+			//remove 98. Go back from the response
+			await sendSMS(phoneNumber, response.replace('98. Go back', ''))
+		} else if (textArray[1] == 3) {
+			response = await translate(
+				`The following tests are used to know how your body is tolerating glucose;
+				Fasting blood sugar, random blood sugar, urine  glucose, glycosylated hemoglobin test				
+				98. Go back`,
+				language
+			)
+			await sendSMS(phoneNumber, response.replace('98. Go back', ''))
+		} else if (textArray[1] == 4) {
+			response = await translate(
+				`You are likely to get gestational diabetes if your body mass index (BMI) is 30 or higher, you have previously given birth to a baby weighing 4.5 kg or more, have had gestational diabetes before, have a relative with diabetes, are of African, south Asian, or latino.
+				98. Go back`,
+				language
+			)
+			await sendSMS(phoneNumber, response.replace('98. Go back', ''))
+		} else if (textArray[1] == 5) {
+			response = await translate(
+				`If glucose levels are too high, anti diabetic medications will be given as well as insulin shots but mostly diet and exercise will be recommended.
+				98. Go back`,
+				language
+			)
+			await sendSMS(phoneNumber, response.replace('98. Go back', ''))
+		} else if (textArray[1] == 6) {
+			response = await translate(
+				`You can prevent gestational diabetes by maintaining a healthy weight, regular testing for glucose level, eating a healthy diet, and exercising regularly.
+				98. Go back`,
+				language
+			)
+			await sendSMS(phoneNumber, response.replace('98. Go back', ''))
+		} else if (textArray[1] == 7) {
+			response = await translate(
+				`
+				1. Management during pregnancy
+				2. Management after pregnancy
+				98. Go back`,
+				language
+			)
+		}
+	} else if (level === 3) {
+		if (textArray[2] == 1) {
+			response = await translate(
+				`Perform regular glucose tests, attend all your antenatal visits, eat a balanced diet and exercise regularly and take all medicines prescribed diligently.
+				98. Go back`,
+				language
+			)
+			await sendSMS(phoneNumber, response.replace('98. Go back', ''))
+		} else if (textArray[2] == 2) {
+			response = await translate(
+				`Breastfeed baby as their glucose may be low and monitor their sugar levels. Diabetes medications may be stopped after delivery. Monitor mothers glucose up to 6 months postpartum.
+				98. Go back`,
+				language
+			)
+			await sendSMS(phoneNumber, response.replace('98. Go back', ''))
+		}
+	}
+
+	return `CON ${response}`
+}
+
+const settingMenu = async (textArray, language, user) => {
+	const level = textArray.length
+	if (level === 1) {
+		response = await translate(
+			`CON Settings
+		1. Change language
+		2. Change county
+		3. Change name
+		4. Change age
+		98. Go back`,
+			language
+		)
+	} else if (level === 2) {
+		if (textArray[1] == 1) {
+			response = await translate(
+				`CON Change language
+			1. English
+			2. Kiswahili`,
+				language
+			)
+		} else if (textArray[1] == 2) {
+			response = await translate(`CON Enter your county`, language)
+		} else if (textArray[1] == 3) {
+			response = await translate(`CON Enter your name`, language)
+		} else if (textArray[1] == 4) {
+			response = await translate(`CON Enter your age`, language)
+		}
+	} else if (level === 3) {
+		if (textArray[1] == 1) {
+			if (textArray[2] == 1) {
+				try {
+					user.language = 'en'
+					await user.save()
+					response = `CON Your language has been updated to English
+					99. Go to main menu`
+				} catch (error) {
+					console.log('error: ', error)
+				}
+			} else if (textArray[2] == 2) {
+				try {
+					user.language = 'sw'
+					await user.save()
+					response = `CON Lugha yako imebadilishwa kwa Kiswahili kwa mafanikio
+					99. Rudi kwenye menyu kuu`
+				} catch (error) {
+					console.log('error: ', error)
+				}
+			}
+		} else if (textArray[1] == 2) {
+			try {
+				user.county = textArray[2]
+				await user.save()
+				response = await translate(
+					`CON Your county has been updated to ${textArray[2]}
+					99. Go to main menu`,
+					language
+				)
+			} catch (error) {
+				console.log('error: ', error)
+			}
+		} else if (textArray[1] == 3) {
+			try {
+				user.name = textArray[2]
+				await user.save()
+				response = await translate(
+					`CON Your name has been updated to ${textArray[2]}
+					99. Go to main menu`,
+					language
+				)
+			} catch (error) {
+				console.log('error: ', error)
+			}
+		} else if (textArray[1] == 4) {
+			try {
+				user.age = textArray[2]
+				await user.save()
+				response = await translate(
+					`CON Your age has been updated to ${textArray[2]}
+					99. Go to main menu`,
+					language
+				)
+			} catch (error) {
+				console.log('error: ', error)
+			}
+		}
+	}
+	return response
+}
+
 const middleware = async (text, sessionId, phoneNumber) => {
 	//return text returned from goBack function
-	return goBack(goToMainMenu(text))
-	// return await checkInvalidEntry(
-	// 	goBack(goToMainMenu(text)),
-	// 	sessionId,
-	// 	phoneNumber
-	// )
+	return await exitMenu(goBack(goToMainMenu(text)))
+}
+
+const subscribeMenu = async (textArray, phoneNumber, user, language) => {
+	const level = textArray.length
+	if (level === 1) {
+		response = await translate(
+			`CON Subscribe to receive gestational diabetes tips
+		1. Weekly
+		2. Monthly
+		3. Unsubscribe
+		98. Go back
+		100. Exit`,
+			language
+		)
+	} else if (level === 2) {
+		if (textArray[1] == 1) {
+			user.subscribed = true
+			user.frequency = 'weekly'
+			await user.save()
+			response = await translate(
+				`CON You have been subscribed to receive weekly tips
+			99. Go to main menu
+			100. Exit`,
+				language
+			)
+		} else if (textArray[1] == 2) {
+			user.subscribed = true
+			user.frequency = 'monthly'
+			await user.save()
+			response = await translate(
+				`CON You have been subscribed to receive monthly tips
+			99. Go to main menu
+			100. Exit`,
+				language
+			)
+		} else if (textArray[1] == 3) {
+			user.subscribed = false
+			user.frequency = ''
+			await user.save()
+			response = await translate(
+				`CON You have been unsubscribed
+			99. Go to main menu
+			100. Exit`,
+				language
+			)
+		}
+	}
+	return response
 }
 
 //const goBack = async (textArray) => {}
 const goBack = (text) => {
 	if (text) {
-		// console.log('Text from goBack: ', text)
 		//split the text into an array using * as a delimiter
 		const textArray = text.split('*')
-		//search for 98 in the array and remove it and one element before it
-		const index = textArray.indexOf('98')
-		if (index > -1) {
-			textArray.splice(index - 1, 2)
+		//search for all 98s in the array and remove them with their preceding values
+		let length = textArray.length
+
+		while (length--) {
+			if (textArray[length] === '98') {
+				textArray.splice(textArray.indexOf('98') - 1, 2)
+			}
 		}
 		//return the array joined back together using the delimiter "*"
 		return textArray.join('*')
@@ -243,11 +351,6 @@ const goToMainMenu = (text) => {
 		if (index > -1) {
 			textArray.splice(0, index + 1)
 		}
-		//search for 99 in the array and remove it and and all the elements before it
-		// const index = textArray.indexOf('99')
-		// if (index > -1) {
-		// 	textArray.splice(0, index + 1)
-		// }
 		//return the array joined back together using the delimiter "*"
 		return textArray.join('*')
 	} else {
@@ -255,55 +358,28 @@ const goToMainMenu = (text) => {
 	}
 }
 
-// const persistInvalidEntry = async (
-// 	phoneNumber,
-// 	language,
-// 	sessionId,
-// 	ussdLevel
-// ) => {
-// 	//Save the invalid entry to the USSDLevel model
-// 	const ussdSession = new USSDLevel({
-// 		sessionId,
-// 		ussdLevel,
-// 		phoneNumber,
-// 		language,
-// 	})
-// 	try {
-// 		await ussdSession.save()
-// 	} catch (error) {
-// 		console.log('Error: ', error)
-// 	}
-// }
-
-// const checkInvalidEntry = async (ussdStr, sessionId, phoneNumber) => {
-// 	console.log('USSD String: ', ussdStr)
-// 	//select all in database where sessionId is equal to the sessionId and phoneNumber is equal to the phoneNumber
-// 	const ussdSession = await USSDLevel.find({
-// 		sessionId,
-// 		phoneNumber,
-// 	}).distinct('ussdLevel')
-// 	//if the ussdSession is empty, return the ussdStr
-// 	if (ussdSession.length === 0) {
-// 		return ussdStr
-// 	}
-
-// 	//explode the ussdStr into an array using * as a delimiter
-// 	const ussdStrArray = ussdStr.split('*')
-// 	//loop through the ussdStrArray and remove elements at index ussdSession
-// 	for (let i = 0; i <= ussdSession.length; i++) {
-// 		ussdStrArray.splice(ussdSession[i], 1)
-// 	}
-// 	//return the ussdStrArray joined back together using * as a delimiter
-// 	return ussdStrArray.join('*')
-// }
+const exitMenu = async (text, language) => {
+	if (text) {
+		//split the text into an array using * as a delimiter
+		const textArray = text.split('*')
+		//search for the last 100 in the array and remove it and all elements before it
+		const index = textArray.lastIndexOf('100')
+		if (index > -1) {
+			return `EXITMENU`
+		}
+		//return the array joined back together using the delimiter "*"
+		return textArray.join('*')
+	} else {
+		return ''
+	}
+}
 
 module.exports = {
 	mainMenuRegistered,
 	mainMenuNotregistered,
 	registerMenu,
 	middleware,
-	// persistInvalidEntry,
 	gestationalDiabetesMenu,
-	nearbyFacilitiesMenu,
 	settingMenu,
+	subscribeMenu,
 }
