@@ -6,6 +6,11 @@ const cors = require('cors')
 const connectDB = require('./config/db.js')
 require('dotenv').config()
 
+// Import middleware.
+const notFoundMiddleware = require('./middleware/not-found.js')
+const errorHandlerMiddleware = require('./middleware/error-handler.js')
+// const authenticateUser = require('./middleware/auth.js')
+
 //import user.js from util
 const { isRegistered } = require('./utils/user')
 const User = require('./models/user')
@@ -109,6 +114,8 @@ app.post('/', async (req, res) => {
 	}
 	res.send(response)
 })
+app.use(notFoundMiddleware)
+app.use(errorHandlerMiddleware)
 
 //Add port to listen to
 const port = process.env.PORT || 8080
