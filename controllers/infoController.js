@@ -1,6 +1,18 @@
+const Info = require('../models/Info.js')
+const { StatusCodes } = require('http-status-codes')
+const { BadRequestError, NotFoundError } = require('../errors/index.js')
 //const createInfo = (req, res) => {}
 const createInfo = async (req, res) => {
-	res.send('Add Info')
+	const { information } = req.body
+
+	if (!information) {
+		throw new BadRequestError('Please Provide All Values')
+	}
+
+	req.body.createdBy = req.user.userId
+
+	const info = await Info.create(req.body)
+	res.status(StatusCodes.CREATED).json({ info })
 }
 
 //const getAllInfo = (req, res) => {}
