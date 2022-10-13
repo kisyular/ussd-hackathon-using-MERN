@@ -272,7 +272,7 @@ const middleware = async (text, sessionId, phoneNumber) => {
 	return await exitMenu(goBack(goToMainMenu(text)))
 }
 
-const subscribeMenu = async (textArray, phoneNumber, user, language) => {
+const subscribeMenu = async (textArray, user, language) => {
 	const level = textArray.length
 	if (level === 1) {
 		response = await translate(

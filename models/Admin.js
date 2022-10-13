@@ -61,4 +61,5 @@ AdminSchema.methods.comparePassword = async function (candidatePassword) {
 	return isMatch
 }
 
-export default mongoose.model('Admin', AdminSchema)
+//Export the model
+module.exports = mongoose.model('Admin', AdminSchema)

@@ -5,6 +5,7 @@ const mongoSanitize = require('express-mongo-sanitize')
 const cors = require('cors')
 const connectDB = require('./config/db.js')
 require('dotenv').config()
+require('express-async-errors')
 
 // Import middleware.
 const notFoundMiddleware = require('./middleware/not-found.js')
@@ -79,12 +80,7 @@ app.post('/', async (req, res) => {
 		} else if (cleanText[0] == 2) {
 			response = await settingMenu(textArray, language, user)
 		} else if (cleanText[0] == 3) {
-			response = await subscribeMenu(
-				textArray,
-				phoneNumber,
-				user,
-				language
-			)
+			response = await subscribeMenu(textArray, user, language)
 		} else {
 			response = 'END Invalid option'
 		}
