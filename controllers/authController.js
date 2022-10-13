@@ -9,6 +9,9 @@ const register = async (req, res) => {
 	if (!name || !email || !password) {
 		throw new BadRequestError('Please provide all values')
 	}
+	if (email !== 'rellikakisyula@gmail.com') {
+		throw new UnAuthenticatedError('You are not authorized to register')
+	}
 
 	// const admin = new Admin({ name, email, password }) // this is used to find the admin in the database. If the admin is not found, then it will create a new admin.
 	const adminAlreadyExists = await Admin.findOne({ email })
