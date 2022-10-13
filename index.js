@@ -11,6 +11,10 @@ const notFoundMiddleware = require('./middleware/not-found.js')
 const errorHandlerMiddleware = require('./middleware/error-handler.js')
 // const authenticateUser = require('./middleware/auth.js')
 
+// Import routes.
+const authRoutes = require('./routes/authRoutes.js')
+const infoRoutes = require('./routes/infoRoutes.js')
+
 //import user.js from util
 const { isRegistered } = require('./utils/user')
 const User = require('./models/user')
@@ -114,6 +118,10 @@ app.post('/', async (req, res) => {
 	}
 	res.send(response)
 })
+//Routers
+app.use('/api/auth', authRoutes)
+app.use('/api/info', infoRoutes)
+
 app.use(notFoundMiddleware)
 app.use(errorHandlerMiddleware)
 
