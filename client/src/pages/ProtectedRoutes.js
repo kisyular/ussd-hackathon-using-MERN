@@ -1,9 +1,8 @@
 import { Navigate } from 'react-router-dom'
-// import { useAppContext } from '../context/appContext'
+import { useAppContext } from '../context/appContext'
 
 const ProtectedRoutes = ({ children }) => {
-	// const { user } = useAppContext()
-	const user = null
+	const { user } = useAppContext()
 	if (!user) {
 		return <Navigate to='/register' />
 	}
