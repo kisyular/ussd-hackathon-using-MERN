@@ -8,6 +8,9 @@ import {
 	REGISTER_USER_BEGIN,
 	REGISTER_USER_SUCCESS,
 	REGISTER_USER_ERROR,
+	LOGIN_USER_BEGIN,
+	LOGIN_USER_SUCCESS,
+	LOGIN_USER_ERROR,
 } from './actions'
 
 // set as default
@@ -63,9 +66,7 @@ const AppProvider = ({ children }) => {
 				`${BASE_URL}/api/auth/register`,
 				currentUser
 			)
-			console.log(response)
 			const { admin, token, location } = response.data
-			console.log('user', admin)
 			dispatch({
 				type: REGISTER_USER_SUCCESS,
 				payload: {
@@ -91,12 +92,46 @@ const AppProvider = ({ children }) => {
 		clearAlert()
 	}
 
+	const loginUser = async (currentUser) => {
+		dispatch({ type: LOGIN_USER_BEGIN })
+		try {
+			const response = await axios.post(
+				`${BASE_URL}/api/auth/login`,
+				currentUser
+			)
+			const { admin, token, location } = response.data
+			dispatch({
+				type: LOGIN_USER_SUCCESS,
+				payload: {
+					admin,
+					token,
+					location,
+				},
+			})
+
+			// will add later
+			addUserToLocalStorage({
+				admin,
+				token,
+				location,
+			})
+		} catch (error) {
+			console.log(error.response)
+			dispatch({
+				type: LOGIN_USER_ERROR,
+				payload: { msg: error.response.data.msg },
+			})
+		}
+		clearAlert()
+	}
+
 	return (
 		<AppContext.Provider
 			value={{
 				...state,
 				displayAlert,
 				registerUser,
+				loginUser,
 			}}
 		>
 			{children}

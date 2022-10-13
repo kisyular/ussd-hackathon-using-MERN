@@ -6,6 +6,7 @@ const cors = require('cors')
 const connectDB = require('./config/db.js')
 require('dotenv').config()
 require('express-async-errors')
+const morgan = require('morgan')
 
 // Import middleware.
 const notFoundMiddleware = require('./middleware/not-found.js')
@@ -33,6 +34,10 @@ const {
 const app = express()
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
+
+if (process.env.NODE_ENV !== 'production') {
+	app.use(morgan('dev'))
+}
 
 app.use(mongoSanitize())
 app.use(cors())
