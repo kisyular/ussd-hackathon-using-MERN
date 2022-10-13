@@ -8,7 +8,7 @@ import { useAppContext } from '../context/appContext'
 const Navbar = () => {
 	const [showLogout, setShowLogout] = useState(false)
 	const [greating, setGreating] = useState('')
-	const { toggleSidebar } = useAppContext()
+	const { toggleSidebar, logoutUser, user } = useAppContext()
 
 	useEffect(() => {
 		const currentHour = moment().format('HH')
@@ -41,7 +41,7 @@ const Navbar = () => {
 						onClick={() => setShowLogout(!showLogout)}
 					>
 						<FaUserCircle />
-						Rellika
+						{user?.name}
 						<FaCaretDown />
 					</button>
 					<div
@@ -49,10 +49,7 @@ const Navbar = () => {
 							showLogout ? 'dropdown show-dropdown' : 'dropdown'
 						}
 					>
-						<button
-							onClick={() => console.log('Logout Button Clicked')}
-							className='dropdown-btn'
-						>
+						<button onClick={logoutUser} className='dropdown-btn'>
 							logout
 						</button>
 					</div>

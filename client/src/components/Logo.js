@@ -4,7 +4,7 @@ const Logo = () => {
 	return (
 		<img
 			src={logo}
-			style={{ maxWidth: '80px' }}
+			style={{ maxWidth: '60px' }}
 			alt='Mama Afya'
 			className='logo'
 		/>
