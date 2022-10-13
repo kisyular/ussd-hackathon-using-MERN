@@ -2,7 +2,7 @@ import Wrapper from '../../assets/wrappers/DashboardFormPage'
 const AddInformation = () => {
 	return (
 		<Wrapper>
-			<h1>Add Information</h1>
+			<h1>Add Information For More</h1>
 		</Wrapper>
 	)
 }

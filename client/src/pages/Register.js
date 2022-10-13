@@ -1,8 +1,8 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Logo, FormRow, Alert } from '../components'
 import Wrapper from '../assets/wrappers/RegisterPage'
-// global context and useNavigate later
 import { useAppContext } from '../context/appContext'
+import { useNavigate } from 'react-router-dom'
 
 const initialState = {
 	name: '',
@@ -10,14 +10,13 @@ const initialState = {
 	password: '',
 	isMember: true,
 }
-// if possible prefer local state
-// global state
 
 function Register() {
 	const [values, setValues] = useState(initialState)
-
 	// global context and useNavigate later
-	const { isLoading, showAlert, displayAlert } = useAppContext()
+	const { isLoading, showAlert, displayAlert, registerUser, user } =
+		useAppContext()
+	const navigate = useNavigate()
 
 	const toggleMember = () => {
 		setValues({ ...values, isMember: !values.isMember })
@@ -34,8 +33,23 @@ function Register() {
 			displayAlert()
 			return
 		}
-		console.log(values)
+		const currentUser = { name, email, password }
+		if (isMember) {
+			console.log('already a member')
+		} else {
+			registerUser(currentUser)
+		}
 	}
+
+	useEffect(() => {
+		console.log('user', user)
+		if (user) {
+			setTimeout(() => {
+				navigate('/')
+			}, 1000)
+		}
+	}, [user, navigate])
+
 	return (
 		<Wrapper className='full-page'>
 			<form className='form' onSubmit={onSubmit}>
@@ -67,7 +81,11 @@ function Register() {
 					handleChange={handleChange}
 				/>
 
-				<button type='submit' className='btn btn-block'>
+				<button
+					type='submit'
+					className='btn btn-block'
+					disabled={isLoading}
+				>
 					submit
 				</button>
 				<p>
