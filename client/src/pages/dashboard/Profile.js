@@ -4,7 +4,7 @@ import { useAppContext } from '../../context/appContext'
 import Wrapper from '../../assets/wrappers/DashboardFormPage'
 
 const Profile = () => {
-	const { user, showAlert, displayAlert, updateUser, isLoading } =
+	const { user, showAlert, displayAlert, updateAdmin, isLoading } =
 		useAppContext()
 	const [name, setName] = useState(user?.name)
 	const [email, setEmail] = useState(user?.email)
@@ -14,12 +14,11 @@ const Profile = () => {
 	const handleSubmit = (e) => {
 		e.preventDefault()
 		if (!name || !email || !lastName || !location) {
-			// test and remove temporary
 			displayAlert()
 			return
 		}
 
-		updateUser({ name, email, lastName, location })
+		updateAdmin({ name, email, lastName, location })
 	}
 	return (
 		<Wrapper>

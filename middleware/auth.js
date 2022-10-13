@@ -1,5 +1,5 @@
-import { UnAuthenticatedError } from '../errors/index.js'
-import jwt from 'jsonwebtoken'
+const { UnAuthenticatedError } = require('../errors/index.js')
+const jwt = require('jsonwebtoken')
 
 const auth = async (req, res, next) => {
 	const authHeader = req.headers.authorization

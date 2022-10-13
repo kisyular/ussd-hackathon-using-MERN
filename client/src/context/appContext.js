@@ -10,6 +10,9 @@ import {
 	SETUP_USER_ERROR,
 	TOGGLE_SIDEBAR,
 	LOGOUT_USER,
+	UPDATE_USER_BEGIN,
+	UPDATE_USER_SUCCESS,
+	UPDATE_USER_ERROR,
 } from './actions'
 
 // set as default
@@ -27,10 +30,39 @@ export const initialState = {
 	userLocation: userLocation || '',
 	showSidebar: false,
 }
-const BASE_URL = 'http://localhost:8080'
+const BASE_URL = 'http://localhost:8080/api/auth'
 const AppContext = React.createContext()
 const AppProvider = ({ children }) => {
 	const [state, dispatch] = useReducer(reducer, initialState)
+
+	const authFetch = axios.create({
+		baseURL: BASE_URL,
+	})
+
+	// response interceptor
+	authFetch.interceptors.request.use(
+		(config) => {
+			config.headers.Authorization = `Bearer ${state.token}`
+			return config
+		},
+		(error) => {
+			return Promise.reject(error)
+		}
+	)
+	// response interceptor
+	authFetch.interceptors.response.use(
+		(response) => {
+			return response
+		},
+		(error) => {
+			console.log(error)
+			if (error.response.status === 401) {
+				logoutUser()
+				console.log('AUTH ERROR')
+			}
+			return Promise.reject(error)
+		}
+	)
 
 	const displayAlert = () => {
 		dispatch({
@@ -63,7 +95,7 @@ const AppProvider = ({ children }) => {
 		dispatch({ type: SETUP_USER_BEGIN })
 		try {
 			const response = await axios.post(
-				`${BASE_URL}/api/auth/${endPoint}`,
+				`${BASE_URL}/${endPoint}`,
 				currentUser
 			)
 			const { admin, token, location } = response.data
@@ -101,6 +133,32 @@ const AppProvider = ({ children }) => {
 		removeUserFromLocalStorage()
 	}
 
+	const updateAdmin = async (currentUser) => {
+		dispatch({ type: UPDATE_USER_BEGIN })
+		try {
+			const { data } = await authFetch.patch('/update', currentUser)
+			const { admin, location } = data
+			console.log(admin)
+			dispatch({
+				type: UPDATE_USER_SUCCESS,
+				payload: { admin, token, location },
+			})
+			addUserToLocalStorage({
+				admin,
+				token: initialState.token,
+				location,
+			})
+		} catch (error) {
+			if (error.response.status !== 401) {
+				dispatch({
+					type: UPDATE_USER_ERROR,
+					payload: { msg: error.response.data.msg },
+				})
+			}
+		}
+		clearAlert()
+	}
+
 	return (
 		<AppContext.Provider
 			value={{
@@ -109,6 +167,7 @@ const AppProvider = ({ children }) => {
 				setupUser,
 				toggleSidebar,
 				logoutUser,
+				updateAdmin,
 			}}
 		>
 			{children}

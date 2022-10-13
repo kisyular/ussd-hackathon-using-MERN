@@ -1,5 +1,6 @@
 //create router
 const router = require('express').Router()
+const authenticateUser = require('../middleware/auth')
 //import controllers
 const {
 	createInfo,
@@ -9,7 +10,13 @@ const {
 } = require('../controllers/infoController')
 
 //create routes
-router.route('/').post(createInfo).get(getAllInfo)
-router.route('/:id').delete(deleteInfo).patch(updateInfo)
+router
+	.route('/')
+	.post(authenticateUser, createInfo)
+	.get(authenticateUser, getAllInfo)
+router
+	.route('/:id')
+	.delete(authenticateUser, deleteInfo)
+	.patch(authenticateUser, updateInfo)
 
 module.exports = router

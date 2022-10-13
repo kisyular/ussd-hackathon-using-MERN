@@ -60,5 +60,35 @@ const login = async (req, res) => {
 	res.status(StatusCodes.OK).json({ admin, token, location: admin.location })
 }
 
+// const updateUser = async (req, res) => {} Used to update the admin details.
+const updateAdmin = async (req, res) => {
+	const { email, name, lastName, location } = req.body
+	if (!email || !name || !lastName || !location) {
+		throw new BadRequestError('Please provide all values')
+	}
+	// Used to find the admin in the database. If the admin is found, then it will update the admin.
+	const admin = await Admin.findOne({ _id: req.user.userId })
+	if (!admin) {
+		console.log('Admin not found')
+		// throw new UnAuthenticatedError('Invalid Credentials')
+	}
+	admin.email = email
+	admin.name = name
+	admin.lastName = lastName
+	admin.location = location
+	await admin.save()
+
+	// various setups
+	// in this case only id
+	// if other properties included, must re-generate
+
+	const token = admin.createJWT()
+	res.status(StatusCodes.OK).json({
+		admin,
+		token,
+		location: admin.location,
+	})
+}
+
 //module.exports = { register, login }
-module.exports = { register, login }
+module.exports = { register, login, updateAdmin }
