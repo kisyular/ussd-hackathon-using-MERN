@@ -8,6 +8,7 @@ import {
 	SETUP_USER_BEGIN,
 	SETUP_USER_SUCCESS,
 	SETUP_USER_ERROR,
+	TOGGLE_SIDEBAR,
 } from './actions'
 
 // set as default
@@ -23,6 +24,7 @@ export const initialState = {
 	user: user ? JSON.parse(user) : null,
 	token: token,
 	userLocation: userLocation || '',
+	showSidebar: false,
 }
 const BASE_URL = 'http://localhost:8080'
 const AppContext = React.createContext()
@@ -88,12 +90,18 @@ const AppProvider = ({ children }) => {
 		}
 		clearAlert()
 	}
+
+	const toggleSidebar = () => {
+		dispatch({ type: TOGGLE_SIDEBAR })
+	}
+
 	return (
 		<AppContext.Provider
 			value={{
 				...state,
 				displayAlert,
 				setupUser,
+				toggleSidebar,
 			}}
 		>
 			{children}

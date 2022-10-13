@@ -5,6 +5,7 @@ import {
 	AllInformation,
 	SharedLayout,
 	Profile,
+	Stats,
 } from './pages/dashboard'
 function App() {
 	return (
@@ -18,7 +19,8 @@ function App() {
 						</ProtectedRoutes>
 					}
 				>
-					<Route path='all-info' index element={<AllInformation />} />
+					<Route index element={<AllInformation />} />
+					<Route path='stats' element={<Stats />} />
 					<Route path='add-info' element={<AddInformation />} />
 					<Route path='profile' element={<Profile />} />
 				</Route>

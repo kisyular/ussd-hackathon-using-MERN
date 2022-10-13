@@ -2,4 +2,5 @@ import AddInformation from './AddInformation'
 import AllInformation from './AllInformation'
 import SharedLayout from './SharedLayout'
 import Profile from './Profile'
-export { AddInformation, AllInformation, SharedLayout, Profile }
+import Stats from './Stats'
+export { AddInformation, AllInformation, SharedLayout, Profile, Stats }

@@ -3,10 +3,12 @@ import { FaAlignLeft, FaUserCircle, FaCaretDown } from 'react-icons/fa'
 import Logo from './Logo'
 import Wrapper from '../assets/wrappers/Navbar'
 import moment from 'moment'
+import { useAppContext } from '../context/appContext'
 
 const Navbar = () => {
 	const [showLogout, setShowLogout] = useState(false)
 	const [greating, setGreating] = useState('')
+	const { toggleSidebar } = useAppContext()
 
 	useEffect(() => {
 		const currentHour = moment().format('HH')
@@ -19,14 +21,11 @@ const Navbar = () => {
 	return (
 		<Wrapper>
 			<div className='nav-center'>
-				<button
-					className='toggle-btn'
-					onClick={() => console.log('Logout')}
-				>
+				<button className='toggle-btn' onClick={toggleSidebar}>
 					<FaAlignLeft />
 				</button>
 				<h3
-					onClick={() => console.log('Toggle Sidebar')}
+					onClick={toggleSidebar}
 					className='toggle-greating logo-text'
 				>
 					{greating}
