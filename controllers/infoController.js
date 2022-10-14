@@ -69,27 +69,47 @@ const deleteInfo = async (req, res) => {
 	await info.remove()
 	res.status(StatusCodes.OK).json({ msg: 'Success! Information removed' })
 }
-
-const showStats = async (req, res) => {
-	let stats = await Info.aggregate([
-		// { $match: { createdBy: mongoose.Types.ObjectId(req.user.userId) } },
-		{ $group: { _id: '$about', count: { $sum: 1 } } },
-	])
-
+const reduceStats = (stats) => {
 	stats = stats.reduce((acc, curr) => {
 		const { _id: title, count } = curr
 		acc[title] = count
 		return acc
 	}, {})
+	return stats
+}
 
-	const defaultStats = {
-		pending: stats.pending || 0,
-		interview: stats.interview || 0,
-		declined: stats.declined || 0,
+const showStats = async (req, res) => {
+	let about = await Info.aggregate([
+		// { $match: { createdBy: mongoose.Types.ObjectId(req.user.userId) } },
+		{ $group: { _id: '$about', count: { $sum: 1 } } },
+	])
+	let status = await Info.aggregate([
+		// { $match: { createdBy: mongoose.Types.ObjectId(req.user.userId) } },
+		{ $group: { _id: '$status', count: { $sum: 1 } } },
+	])
+
+	about = reduceStats(about)
+	status = reduceStats(status)
+
+	const defaultAbout = {
+		symptoms: about.symptoms || 0,
+		prevention: about.prevention || 0,
+		management: about.management || 0,
+		treatment: about.treatment || 0,
+		diagnosis: about.diagnosis || 0,
+		risk_factors: about['risk factors'] || 0,
+	}
+	const defaultStatus = {
+		sent: status.sent || 0,
+		queued: status.queued || 0,
 	}
 	let monthlyApplications = []
 
-	res.status(StatusCodes.OK).json({ defaultStats, monthlyApplications })
+	res.status(StatusCodes.OK).json({
+		defaultAbout,
+		defaultStatus,
+		monthlyApplications,
+	})
 }
 
 //module.exports = { createInfo, getAllInfo, deleteInfo, updateInfo }

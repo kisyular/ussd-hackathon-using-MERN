@@ -21,6 +21,8 @@ import {
 	EDIT_INFO_BEGIN,
 	EDIT_INFO_SUCCESS,
 	EDIT_INFO_ERROR,
+	SHOW_STATS_BEGIN,
+	SHOW_STATS_SUCCESS,
 } from './actions'
 import { initialState } from './appContext'
 
@@ -196,6 +198,18 @@ const reducer = (state, action) => {
 			showAlert: true,
 			alertType: 'danger',
 			alertText: action.payload.msg,
+		}
+	}
+	if (action.type === SHOW_STATS_BEGIN) {
+		return { ...state, isLoading: true, showAlert: false }
+	}
+	if (action.type === SHOW_STATS_SUCCESS) {
+		return {
+			...state,
+			isLoading: false,
+			aboutStats: action.payload.aboutStats,
+			statusStats: action.payload.statusStats,
+			monthlyApplications: action.payload.monthlyApplications,
 		}
 	}
 }
