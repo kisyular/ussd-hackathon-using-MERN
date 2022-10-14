@@ -9,6 +9,10 @@ import FormTextArea from './FormTextArea'
 import FormRowSelect from './FormRowSelect'
 import SearchContainer from './SearchContainer'
 import JobsContainer from './JobsContainer'
+import AreaChart from './AreaChart'
+import ChartsContainer from './ChartsContainer'
+import StatsContainer from './StatsContainer'
+import StatsItem from './StatsItem'
 export {
 	Logo,
 	Alert,
@@ -21,4 +25,8 @@ export {
 	FormRowSelect,
 	SearchContainer,
 	JobsContainer,
+	AreaChart,
+	ChartsContainer,
+	StatsContainer,
+	StatsItem,
 }

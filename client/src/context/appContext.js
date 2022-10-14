@@ -257,9 +257,13 @@ const AppProvider = ({ children }) => {
 		clearAlert()
 	}
 
-	useEffect(() => {
-		getInfo()
-	}, [])
+	useEffect(
+		() => {
+			getInfo()
+		},
+		// eslint-disable-next-line
+		[]
+	)
 
 	const setEditInfo = (id) => {
 		dispatch({ type: SET_EDIT_INFO, payload: { id } })
