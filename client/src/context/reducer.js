@@ -9,6 +9,11 @@ import {
 	UPDATE_USER_BEGIN,
 	UPDATE_USER_SUCCESS,
 	UPDATE_USER_ERROR,
+	HANDLE_CHANGE,
+	CLEAR_VALUES,
+	CREATE_INFO_BEGIN,
+	CREATE_INFO_SUCCESS,
+	CREATE_INFO_ERROR,
 } from './actions'
 import { initialState } from './appContext'
 
@@ -71,7 +76,6 @@ const reducer = (state, action) => {
 	if (action.type === UPDATE_USER_BEGIN) {
 		return { ...state, isLoading: true }
 	}
-
 	if (action.type === UPDATE_USER_SUCCESS) {
 		return {
 			...state,
@@ -86,6 +90,44 @@ const reducer = (state, action) => {
 		}
 	}
 	if (action.type === UPDATE_USER_ERROR) {
+		return {
+			...state,
+			isLoading: false,
+			showAlert: true,
+			alertType: 'danger',
+			alertText: action.payload.msg,
+		}
+	}
+
+	if (action.type === HANDLE_CHANGE) {
+		return { ...state, [action.payload.name]: action.payload.value }
+	}
+
+	if (action.type === CLEAR_VALUES) {
+		const initialState = {
+			isEditing: false,
+			editJobId: '',
+			information: '',
+			referenceURL: '',
+			infoFrequency: 'weekly',
+			status: 'not send',
+		}
+		return { ...state, ...initialState }
+	}
+
+	if (action.type === CREATE_INFO_BEGIN) {
+		return { ...state, isLoading: true }
+	}
+	if (action.type === CREATE_INFO_SUCCESS) {
+		return {
+			...state,
+			isLoading: false,
+			showAlert: true,
+			alertType: 'success',
+			alertText: 'New Job Created!',
+		}
+	}
+	if (action.type === CREATE_INFO_ERROR) {
 		return {
 			...state,
 			isLoading: false,

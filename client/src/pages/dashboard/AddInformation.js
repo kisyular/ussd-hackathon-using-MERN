@@ -3,31 +3,37 @@ import { useAppContext } from '../../context/appContext'
 import Wrapper from '../../assets/wrappers/DashboardFormPage'
 const AddInformation = () => {
 	const {
+		isLoading,
 		isEditing,
 		showAlert,
 		displayAlert,
 		information,
-		refereceURL,
+		referenceURL,
 		infoFrequencyOptions,
 		infoFrequency,
 		statusOptions,
 		status,
+		handleChange,
+		clearValues,
+		createInfo,
 	} = useAppContext()
 
 	const handleSubmit = (e) => {
 		e.preventDefault()
 
-		if (!information || !refereceURL) {
+		if (!information || !referenceURL) {
 			displayAlert()
 			return
 		}
-		console.log('create job')
+		if (isEditing) {
+			// updateInfo()
+			return
+		}
+		createInfo()
 	}
 
 	const handleInfoInput = (e) => {
-		const name = e.target.name
-		const value = e.target.value
-		console.log(`${name}:${value}`)
+		handleChange({ name: e.target.name, value: e.target.value })
 	}
 
 	return (
@@ -48,9 +54,9 @@ const AddInformation = () => {
 					{/* reference url */}
 					<FormRow
 						type='text'
-						labelText={'Reference URL'}
-						name='refereceURL'
-						value={refereceURL}
+						labelText='Reference URL'
+						name='referenceURL'
+						value={referenceURL}
 						handleChange={handleInfoInput}
 					/>
 
@@ -77,8 +83,19 @@ const AddInformation = () => {
 							className='btn btn-block submit-btn'
 							type='submit'
 							onClick={handleSubmit}
+							disabled={isLoading}
 						>
 							submit
+						</button>
+
+						<button
+							className='btn btn-block clear-btn'
+							onClick={(e) => {
+								e.preventDefault()
+								clearValues()
+							}}
+						>
+							clear
 						</button>
 					</div>
 				</div>

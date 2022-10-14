@@ -13,6 +13,11 @@ import {
 	UPDATE_USER_BEGIN,
 	UPDATE_USER_SUCCESS,
 	UPDATE_USER_ERROR,
+	HANDLE_CHANGE,
+	CLEAR_VALUES,
+	CREATE_INFO_BEGIN,
+	CREATE_INFO_SUCCESS,
+	CREATE_INFO_ERROR,
 } from './actions'
 
 // set as default
@@ -38,7 +43,7 @@ export const initialState = {
 	statusOptions: ['send', 'not send'],
 	status: 'not send',
 }
-const BASE_URL = 'http://localhost:8080/api/auth'
+const BASE_URL = 'http://localhost:8080/api'
 const AppContext = React.createContext()
 const AppProvider = ({ children }) => {
 	const [state, dispatch] = useReducer(reducer, initialState)
@@ -103,7 +108,7 @@ const AppProvider = ({ children }) => {
 		dispatch({ type: SETUP_USER_BEGIN })
 		try {
 			const response = await axios.post(
-				`${BASE_URL}/${endPoint}`,
+				`${BASE_URL}/auth/${endPoint}`,
 				currentUser
 			)
 			const { admin, token, location } = response.data
@@ -144,9 +149,8 @@ const AppProvider = ({ children }) => {
 	const updateAdmin = async (currentUser) => {
 		dispatch({ type: UPDATE_USER_BEGIN })
 		try {
-			const { data } = await authFetch.patch('/update', currentUser)
+			const { data } = await authFetch.patch('/auth/update', currentUser)
 			const { admin, location } = data
-			console.log(admin)
 			dispatch({
 				type: UPDATE_USER_SUCCESS,
 				payload: { admin, token, location },
@@ -167,6 +171,43 @@ const AppProvider = ({ children }) => {
 		clearAlert()
 	}
 
+	const handleChange = ({ name, value }) => {
+		dispatch({
+			type: HANDLE_CHANGE,
+			payload: { name, value },
+		})
+	}
+
+	const clearValues = () => {
+		dispatch({ type: CLEAR_VALUES })
+	}
+
+	const createInfo = async () => {
+		dispatch({ type: CREATE_INFO_BEGIN })
+		try {
+			const { information, infoFrequency, referenceURL, status } = state
+
+			await authFetch.post('/info', {
+				information,
+				infoFrequency,
+				referenceURL,
+				status,
+			})
+			dispatch({
+				type: CREATE_INFO_SUCCESS,
+			})
+			// call function instead clearValues()
+			dispatch({ type: CLEAR_VALUES })
+		} catch (error) {
+			if (error.response.status === 401) return
+			dispatch({
+				type: CREATE_INFO_ERROR,
+				payload: { msg: error.response.data.msg },
+			})
+		}
+		clearAlert()
+	}
+
 	return (
 		<AppContext.Provider
 			value={{
@@ -176,6 +217,9 @@ const AppProvider = ({ children }) => {
 				toggleSidebar,
 				logoutUser,
 				updateAdmin,
+				handleChange,
+				clearValues,
+				createInfo,
 			}}
 		>
 			{children}
