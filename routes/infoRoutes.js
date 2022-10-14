@@ -7,6 +7,7 @@ const {
 	getAllInfo,
 	deleteInfo,
 	updateInfo,
+	showStats,
 } = require('../controllers/infoController')
 
 //create routes
@@ -18,5 +19,6 @@ router
 	.route('/:id')
 	.delete(authenticateUser, deleteInfo)
 	.patch(authenticateUser, updateInfo)
+router.route('/stats').get(authenticateUser, showStats)
 
 module.exports = router

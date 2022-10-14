@@ -2,6 +2,7 @@ const Info = require('../models/Info.js')
 const { StatusCodes } = require('http-status-codes')
 const { BadRequestError, NotFoundError } = require('../errors/index.js')
 const checkPermissions = require('../utils/checkPermissions.js')
+const mongoose = require('mongoose')
 
 //const createInfo = (req, res) => {}
 const createInfo = async (req, res) => {
@@ -69,5 +70,27 @@ const deleteInfo = async (req, res) => {
 	res.status(StatusCodes.OK).json({ msg: 'Success! Information removed' })
 }
 
+const showStats = async (req, res) => {
+	let stats = await Info.aggregate([
+		// { $match: { createdBy: mongoose.Types.ObjectId(req.user.userId) } },
+		{ $group: { _id: '$about', count: { $sum: 1 } } },
+	])
+
+	stats = stats.reduce((acc, curr) => {
+		const { _id: title, count } = curr
+		acc[title] = count
+		return acc
+	}, {})
+
+	const defaultStats = {
+		pending: stats.pending || 0,
+		interview: stats.interview || 0,
+		declined: stats.declined || 0,
+	}
+	let monthlyApplications = []
+
+	res.status(StatusCodes.OK).json({ defaultStats, monthlyApplications })
+}
+
 //module.exports = { createInfo, getAllInfo, deleteInfo, updateInfo }
-module.exports = { createInfo, getAllInfo, deleteInfo, updateInfo }
+module.exports = { createInfo, getAllInfo, deleteInfo, updateInfo, showStats }
