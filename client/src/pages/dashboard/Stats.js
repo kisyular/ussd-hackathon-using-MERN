@@ -6,9 +6,13 @@ import { FaCheckDouble, FaClock } from 'react-icons/fa'
 const Stats = () => {
 	const { showStats, isLoading, monthlyApplications, statusStats } =
 		useAppContext()
-	useEffect(() => {
-		showStats()
-	}, [])
+	useEffect(
+		() => {
+			showStats()
+		},
+		// eslint-disable-next-line
+		[]
+	)
 
 	if (isLoading) {
 		return <Loading center />

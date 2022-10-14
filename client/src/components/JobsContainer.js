@@ -5,10 +5,14 @@ import Info from './Info'
 import Wrapper from '../assets/wrappers/JobsContainer'
 
 const JobsContainer = () => {
-	const { getInfo, infos, isLoading, page, totalInfos } = useAppContext()
-	useEffect(() => {
-		getInfo()
-	}, [])
+	const { getInfo, infos, isLoading, totalInfos } = useAppContext()
+	useEffect(
+		() => {
+			getInfo()
+		},
+		// eslint-disable-next-line
+		[]
+	)
 
 	if (isLoading) {
 		return <Loading center />

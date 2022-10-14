@@ -19,8 +19,8 @@ function App() {
 						</ProtectedRoutes>
 					}
 				>
-					<Route index element={<AllInformation />} />
-					<Route path='stats' element={<Stats />} />
+					<Route index element={<Stats />} />
+					<Route path='all-info' element={<AllInformation />} />
 					<Route path='info/:id' element={<Stats />} />
 					<Route path='add-info' element={<AddInformation />} />
 					<Route path='profile' element={<Profile />} />
