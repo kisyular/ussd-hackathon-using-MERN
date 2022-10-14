@@ -3,6 +3,7 @@ const { StatusCodes } = require('http-status-codes')
 const { BadRequestError, NotFoundError } = require('../errors/index.js')
 const checkPermissions = require('../utils/checkPermissions.js')
 const mongoose = require('mongoose')
+const moment = require('moment')
 
 //const createInfo = (req, res) => {}
 const createInfo = async (req, res) => {
@@ -20,7 +21,41 @@ const createInfo = async (req, res) => {
 
 //const getAllInfo = (req, res) => {}
 const getAllInfo = async (req, res) => {
-	const infos = await Info.find({ createdBy: req.user.userId })
+	const { status, about, sort, search } = req.query
+	const queryObject = {
+		createdBy: req.user.userId,
+	}
+
+	if (status && status !== 'all') {
+		queryObject.status = status
+	}
+
+	if (about && about !== 'all') {
+		queryObject.about = about
+	}
+
+	if (search) {
+		queryObject.information = { $regex: search, $options: 'i' }
+	}
+
+	// const infos = await Info.find({ createdBy: req.user.userId })
+	// NO AWAIT
+	let result = Info.find(queryObject)
+	// chain sort conditions
+	if (sort === 'latest') {
+		result = result.sort('-createdAt')
+	}
+	if (sort === 'oldest') {
+		result = result.sort('createdAt')
+	}
+	if (sort === 'a-z') {
+		result = result.sort('position')
+	}
+	if (sort === 'z-a') {
+		result = result.sort('-position')
+	}
+
+	const infos = await result
 
 	res.status(StatusCodes.OK).json({
 		infos,
@@ -103,7 +138,39 @@ const showStats = async (req, res) => {
 		sent: status.sent || 0,
 		queued: status.queued || 0,
 	}
-	let monthlyApplications = []
+	let monthlyApplications = await Info.aggregate([
+		// { $match: { createdBy: mongoose.Types.ObjectId(req.user.userId) } },
+		{
+			$group: {
+				_id: {
+					year: {
+						$year: '$createdAt',
+					},
+					month: {
+						$month: '$createdAt',
+					},
+				},
+				count: { $sum: 1 },
+			},
+		},
+		{ $sort: { '_id.year': -1, '_id.month': -1 } },
+		{ $limit: 6 },
+	])
+
+	monthlyApplications = monthlyApplications
+		.map((item) => {
+			const {
+				_id: { year, month },
+				count,
+			} = item
+			// accepts 0-11
+			const date = moment()
+				.month(month - 1)
+				.year(year)
+				.format('MMM Y')
+			return { date, count }
+		})
+		.reverse()
 
 	res.status(StatusCodes.OK).json({
 		defaultAbout,
