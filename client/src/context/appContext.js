@@ -29,6 +29,14 @@ export const initialState = {
 	token: token,
 	userLocation: userLocation || '',
 	showSidebar: false,
+	isEditing: false,
+	editInfoId: '',
+	information: '',
+	referenceURL: '',
+	infoFrequencyOptions: ['weekly', 'monthly'],
+	infoFrequency: 'weekly',
+	statusOptions: ['send', 'not send'],
+	status: 'not send',
 }
 const BASE_URL = 'http://localhost:8080/api/auth'
 const AppContext = React.createContext()

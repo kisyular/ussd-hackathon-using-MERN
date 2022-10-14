@@ -5,4 +5,16 @@ import Loading from './Loading'
 import Navbar from './Navbar'
 import SmallSidebar from './SmallSidebar'
 import FormRow from './FormRow'
-export { Logo, Alert, Navbar, BigSidebar, SmallSidebar, Loading, FormRow }
+import FormTextArea from './FormTextArea'
+import FormRowSelect from './FormRowSelect'
+export {
+	Logo,
+	Alert,
+	Navbar,
+	BigSidebar,
+	SmallSidebar,
+	Loading,
+	FormRow,
+	FormTextArea,
+	FormRowSelect,
+}

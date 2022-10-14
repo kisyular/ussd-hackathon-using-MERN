@@ -3,9 +3,9 @@ const { StatusCodes } = require('http-status-codes')
 const { BadRequestError, NotFoundError } = require('../errors/index.js')
 //const createInfo = (req, res) => {}
 const createInfo = async (req, res) => {
-	const { information } = req.body
+	const { information, referenceURL } = req.body
 
-	if (!information) {
+	if (!information || !referenceURL) {
 		throw new BadRequestError('Please Provide All Values')
 	}
 

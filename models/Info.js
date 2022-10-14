@@ -5,7 +5,7 @@ const InfoSchema = new mongoose.Schema(
 		information: {
 			type: String,
 			required: [true, 'Please provide information to share'],
-			maxlength: 50,
+			maxlength: 200,
 		},
 		// position: {
 		// 	type: String,
@@ -22,6 +22,11 @@ const InfoSchema = new mongoose.Schema(
 			type: String,
 			enum: ['weekly', 'monthly'],
 			default: 'weekly',
+		},
+		referenceURL: {
+			type: String,
+			required: [true, 'Please provide reference'],
+			maxlength: 100,
 		},
 		infoCounty: {
 			type: String,
