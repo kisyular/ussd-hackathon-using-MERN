@@ -13,7 +13,7 @@ const JobsContainer = () => {
 	if (isLoading) {
 		return <Loading center />
 	}
-	if (infos.length === 0) {
+	if (infos?.length === 0) {
 		return (
 			<Wrapper>
 				<h2>No information to display...</h2>
@@ -23,7 +23,7 @@ const JobsContainer = () => {
 	return (
 		<Wrapper>
 			<h5>
-				{totalInfos} Information{infos.length > 1 && 's'} found
+				{totalInfos} Information{infos?.length > 1 && 's'} found
 			</h5>
 			<div className='jobs'>
 				{infos.map((info) => {

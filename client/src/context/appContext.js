@@ -22,6 +22,9 @@ import {
 	GET_INFO_SUCCESS,
 	SET_EDIT_INFO,
 	DELETE_INFO_BEGIN,
+	EDIT_INFO_BEGIN,
+	EDIT_INFO_SUCCESS,
+	EDIT_INFO_ERROR,
 } from './actions'
 
 // set as default
@@ -257,9 +260,34 @@ const AppProvider = ({ children }) => {
 		dispatch({ type: SET_EDIT_INFO, payload: { id } })
 	}
 
-	const editInfo = () => {
-		console.log('edit job')
+	const editInfo = async () => {
+		dispatch({ type: EDIT_INFO_BEGIN })
+		try {
+			const { information, infoFrequency, referenceURL, status, about } =
+				state
+
+			await authFetch.patch(`/info/${state.editInfoId}`, {
+				information,
+				infoFrequency,
+				referenceURL,
+				status,
+				about,
+			})
+			dispatch({
+				type: EDIT_INFO_SUCCESS,
+			})
+			dispatch({ type: CLEAR_VALUES })
+		} catch (error) {
+			console.log(error)
+			if (error.response.status === 401) return
+			dispatch({
+				type: EDIT_INFO_ERROR,
+				payload: { msg: error.response.data.msg },
+			})
+		}
+		clearAlert()
 	}
+
 	const deleteInfo = async (id) => {
 		dispatch({ type: DELETE_INFO_BEGIN })
 		try {

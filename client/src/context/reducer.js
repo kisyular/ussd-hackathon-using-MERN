@@ -18,6 +18,9 @@ import {
 	GET_INFO_SUCCESS,
 	SET_EDIT_INFO,
 	DELETE_INFO_BEGIN,
+	EDIT_INFO_BEGIN,
+	EDIT_INFO_SUCCESS,
+	EDIT_INFO_ERROR,
 } from './actions'
 import { initialState } from './appContext'
 
@@ -173,6 +176,27 @@ const reducer = (state, action) => {
 
 	if (action.type === DELETE_INFO_BEGIN) {
 		return { ...state, isLoading: true }
+	}
+	if (action.type === EDIT_INFO_BEGIN) {
+		return { ...state, isLoading: true }
+	}
+	if (action.type === EDIT_INFO_SUCCESS) {
+		return {
+			...state,
+			isLoading: false,
+			showAlert: true,
+			alertType: 'success',
+			alertText: 'Job Updated!',
+		}
+	}
+	if (action.type === EDIT_INFO_ERROR) {
+		return {
+			...state,
+			isLoading: false,
+			showAlert: true,
+			alertType: 'danger',
+			alertText: action.payload.msg,
+		}
 	}
 }
 

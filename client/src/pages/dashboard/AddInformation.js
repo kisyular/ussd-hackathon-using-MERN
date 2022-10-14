@@ -29,7 +29,7 @@ const AddInformation = () => {
 			return
 		}
 		if (isEditing) {
-			// updateInfo()
+			console.log('editing')
 			editInfo()
 			return
 		}
