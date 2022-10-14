@@ -31,9 +31,7 @@ const getAllInfo = async (req, res) => {
 //const updateInfo = (req, res) => {}
 const updateInfo = async (req, res) => {
 	const { id: infoId } = req.params
-
 	const { information, referenceURL, about } = req.body
-
 	if (!information || !referenceURL || !about) {
 		throw new BadRequestError('Please Provide All Values')
 	}
@@ -43,7 +41,6 @@ const updateInfo = async (req, res) => {
 	if (!info) {
 		throw new NotFoundError(`No information with id ${infoId}`)
 	}
-
 	// check permissions
 	checkPermissions(req.user, info.createdBy)
 

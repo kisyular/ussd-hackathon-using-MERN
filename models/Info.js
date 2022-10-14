@@ -1,11 +1,12 @@
 const mongoose = require('mongoose')
+// import mongoose from 'mongoose'
 
 const InfoSchema = new mongoose.Schema(
 	{
 		information: {
 			type: String,
 			required: [true, 'Please provide information to share'],
-			maxlength: 200,
+			maxlength: 300,
 		},
 		about: {
 			type: String,
@@ -51,3 +52,4 @@ const InfoSchema = new mongoose.Schema(
 )
 
 module.exports = mongoose.model('Info', InfoSchema)
+// export default mongoose.models.Info || mongoose.model('Info', InfoSchema)
