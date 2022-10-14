@@ -21,7 +21,7 @@ const createInfo = async (req, res) => {
 
 //const getAllInfo = (req, res) => {}
 const getAllInfo = async (req, res) => {
-	const { status, about, sort, search } = req.query
+	const { status, about, sort, search, infoFrequency } = req.query
 	const queryObject = {
 		createdBy: req.user.userId,
 	}
@@ -32,6 +32,9 @@ const getAllInfo = async (req, res) => {
 
 	if (about && about !== 'all') {
 		queryObject.about = about
+	}
+	if (infoFrequency && infoFrequency !== 'all') {
+		queryObject.infoFrequency = infoFrequency
 	}
 
 	if (search) {
@@ -55,12 +58,22 @@ const getAllInfo = async (req, res) => {
 		result = result.sort('-position')
 	}
 
+	// setup pagination
+	const page = Number(req.query.page) || 1
+	const limit = Number(req.query.limit) || 10
+	const skip = (page - 1) * limit
+
+	result = result.skip(skip).limit(limit)
+
 	const infos = await result
+
+	const totalJobs = await Info.countDocuments(queryObject)
+	const numOfPages = Math.ceil(totalJobs / limit)
 
 	res.status(StatusCodes.OK).json({
 		infos,
-		totalInfos: infos.length,
-		numOfPages: 1,
+		totalInfos: totalJobs,
+		numOfPages,
 	})
 }
 

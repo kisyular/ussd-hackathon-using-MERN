@@ -23,6 +23,8 @@ import {
 	EDIT_INFO_ERROR,
 	SHOW_STATS_BEGIN,
 	SHOW_STATS_SUCCESS,
+	CLEAR_FILTERS,
+	CHANGE_PAGE,
 } from './actions'
 import { initialState } from './appContext'
 
@@ -35,6 +37,7 @@ const reducer = (state, action) => {
 			alertText: 'Please provide all values!',
 		}
 	}
+
 	if (action.type === CLEAR_ALERT) {
 		return {
 			...state,
@@ -47,6 +50,7 @@ const reducer = (state, action) => {
 	if (action.type === SETUP_USER_BEGIN) {
 		return { ...state, isLoading: true }
 	}
+
 	if (action.type === SETUP_USER_SUCCESS) {
 		return {
 			...state,
@@ -59,6 +63,7 @@ const reducer = (state, action) => {
 			alertText: action.payload.alertText,
 		}
 	}
+
 	if (action.type === SETUP_USER_ERROR) {
 		return {
 			...state,
@@ -72,6 +77,7 @@ const reducer = (state, action) => {
 	if (action.type === TOGGLE_SIDEBAR) {
 		return { ...state, showSidebar: !state.showSidebar }
 	}
+
 	if (action.type === LOGOUT_USER) {
 		return {
 			...initialState,
@@ -85,6 +91,7 @@ const reducer = (state, action) => {
 	if (action.type === UPDATE_USER_BEGIN) {
 		return { ...state, isLoading: true }
 	}
+
 	if (action.type === UPDATE_USER_SUCCESS) {
 		return {
 			...state,
@@ -98,6 +105,7 @@ const reducer = (state, action) => {
 			alertText: 'User Profile Updated!',
 		}
 	}
+
 	if (action.type === UPDATE_USER_ERROR) {
 		return {
 			...state,
@@ -179,9 +187,11 @@ const reducer = (state, action) => {
 	if (action.type === DELETE_INFO_BEGIN) {
 		return { ...state, isLoading: true }
 	}
+
 	if (action.type === EDIT_INFO_BEGIN) {
 		return { ...state, isLoading: true }
 	}
+
 	if (action.type === EDIT_INFO_SUCCESS) {
 		return {
 			...state,
@@ -191,6 +201,7 @@ const reducer = (state, action) => {
 			alertText: 'Job Updated!',
 		}
 	}
+
 	if (action.type === EDIT_INFO_ERROR) {
 		return {
 			...state,
@@ -200,9 +211,11 @@ const reducer = (state, action) => {
 			alertText: action.payload.msg,
 		}
 	}
+
 	if (action.type === SHOW_STATS_BEGIN) {
 		return { ...state, isLoading: true, showAlert: false }
 	}
+
 	if (action.type === SHOW_STATS_SUCCESS) {
 		return {
 			...state,
@@ -210,6 +223,32 @@ const reducer = (state, action) => {
 			aboutStats: action.payload.aboutStats,
 			statusStats: action.payload.statusStats,
 			monthlyApplications: action.payload.monthlyApplications,
+		}
+	}
+
+	if (action.type === CLEAR_FILTERS) {
+		return {
+			...state,
+			search: '',
+			searchStatus: 'all',
+			searchType: 'all',
+			sort: 'latest',
+			searchAbout: 'all',
+			searchFrequency: 'all',
+		}
+	}
+
+	if (action.type === CHANGE_PAGE) {
+		return { ...state, page: action.payload.page }
+	}
+
+	if (action.type === HANDLE_CHANGE) {
+		// set back to first page
+
+		return {
+			...state,
+			page: 1,
+			[action.payload.name]: action.payload.value,
 		}
 	}
 }

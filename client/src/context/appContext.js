@@ -27,6 +27,8 @@ import {
 	EDIT_INFO_ERROR,
 	SHOW_STATS_BEGIN,
 	SHOW_STATS_SUCCESS,
+	CLEAR_FILTERS,
+	CHANGE_PAGE,
 } from './actions'
 
 // set as default
@@ -47,6 +49,7 @@ export const initialState = {
 	editInfoId: '',
 	information: '',
 	referenceURL: '',
+	infoFrequency: 'weekly',
 	infoFrequencyOptions: ['weekly', 'monthly'],
 	about: 'symptoms',
 	aboutOptions: [
@@ -57,9 +60,8 @@ export const initialState = {
 		'risk factors',
 		'management',
 	],
-	infoFrequency: 'weekly',
-	statusOptions: ['sent', 'queued'],
 	status: 'queued',
+	statusOptions: ['sent', 'queued'],
 	infos: [],
 	totalInfos: 0,
 	numOfPages: 1,
@@ -67,6 +69,12 @@ export const initialState = {
 	aboutStats: {},
 	statusStats: {},
 	monthlyApplications: [],
+	search: '',
+	searchStatus: 'all',
+	searchAbout: 'all',
+	searchFrequency: 'all',
+	sort: 'latest',
+	sortOptions: ['latest', 'oldest', 'a-z', 'z-a'],
 }
 const BASE_URL = 'http://localhost:8080/api'
 const AppContext = React.createContext()
@@ -236,7 +244,19 @@ const AppProvider = ({ children }) => {
 	}
 
 	const getInfo = async () => {
-		let url = `/info`
+		const {
+			search,
+			searchStatus,
+			searchAbout,
+			sort,
+			searchFrequency,
+			page,
+		} = state
+
+		let url = `/info?page=${page}&status=${searchStatus}&about=${searchAbout}&infoFrequency=${searchFrequency}&sort=${sort}`
+		if (search) {
+			url = url + `&search=${search}`
+		}
 
 		dispatch({ type: GET_INFO_BEGIN })
 		try {
@@ -323,8 +343,15 @@ const AppProvider = ({ children }) => {
 			console.log(error.response)
 			logoutUser()
 		}
-
 		clearAlert()
+	}
+
+	const clearFilters = () => {
+		dispatch({ type: CLEAR_FILTERS })
+	}
+
+	const changePage = (page) => {
+		dispatch({ type: CHANGE_PAGE, payload: { page } })
 	}
 
 	return (
@@ -344,6 +371,8 @@ const AppProvider = ({ children }) => {
 				deleteInfo,
 				editInfo,
 				showStats,
+				clearFilters,
+				changePage,
 			}}
 		>
 			{children}
