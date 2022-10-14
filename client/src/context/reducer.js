@@ -17,6 +17,7 @@ import {
 	GET_INFO_BEGIN,
 	GET_INFO_SUCCESS,
 	SET_EDIT_INFO,
+	DELETE_INFO_BEGIN,
 } from './actions'
 import { initialState } from './appContext'
 
@@ -168,6 +169,10 @@ const reducer = (state, action) => {
 			about,
 			status,
 		}
+	}
+
+	if (action.type === DELETE_INFO_BEGIN) {
+		return { ...state, isLoading: true }
 	}
 }
 

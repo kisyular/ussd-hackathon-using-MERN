@@ -21,6 +21,7 @@ import {
 	GET_INFO_BEGIN,
 	GET_INFO_SUCCESS,
 	SET_EDIT_INFO,
+	DELETE_INFO_BEGIN,
 } from './actions'
 
 // set as default
@@ -259,8 +260,14 @@ const AppProvider = ({ children }) => {
 	const editInfo = () => {
 		console.log('edit job')
 	}
-	const deleteInfo = (id) => {
-		console.log(`delete : ${id}`)
+	const deleteInfo = async (id) => {
+		dispatch({ type: DELETE_INFO_BEGIN })
+		try {
+			await authFetch.delete(`/info/${id}`)
+			getInfo()
+		} catch (error) {
+			logoutUser()
+		}
 	}
 
 	return (
