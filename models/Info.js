@@ -22,8 +22,8 @@ const InfoSchema = new mongoose.Schema(
 		},
 		status: {
 			type: String,
-			enum: ['send', 'not send'],
-			default: 'not send',
+			enum: ['sent', 'queued'],
+			default: 'queued',
 		},
 
 		infoFrequency: {
@@ -34,7 +34,7 @@ const InfoSchema = new mongoose.Schema(
 		referenceURL: {
 			type: String,
 			required: [true, 'Please provide reference'],
-			maxlength: 100,
+			maxlength: 300,
 		},
 		infoCounty: {
 			type: String,
