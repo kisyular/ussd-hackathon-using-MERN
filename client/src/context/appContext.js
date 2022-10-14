@@ -1,4 +1,4 @@
-import React, { useReducer, useContext } from 'react'
+import React, { useReducer, useContext, useEffect } from 'react'
 import axios from 'axios'
 
 import reducer from './reducer'
@@ -18,6 +18,8 @@ import {
 	CREATE_INFO_BEGIN,
 	CREATE_INFO_SUCCESS,
 	CREATE_INFO_ERROR,
+	GET_INFO_BEGIN,
+	GET_INFO_SUCCESS,
 } from './actions'
 
 // set as default
@@ -51,6 +53,10 @@ export const initialState = {
 	infoFrequency: 'weekly',
 	statusOptions: ['send', 'not send'],
 	status: 'not send',
+	infos: [],
+	totalInfos: 0,
+	numOfPages: 1,
+	page: 1,
 }
 const BASE_URL = 'http://localhost:8080/api'
 const AppContext = React.createContext()
@@ -218,6 +224,32 @@ const AppProvider = ({ children }) => {
 		}
 		clearAlert()
 	}
+
+	const getJobs = async () => {
+		let url = `/info`
+
+		dispatch({ type: GET_INFO_BEGIN })
+		try {
+			const { data } = await authFetch(url)
+			const { infos, totalInfos, numOfPages } = data
+			dispatch({
+				type: GET_INFO_SUCCESS,
+				payload: {
+					infos,
+					totalInfos,
+					numOfPages,
+				},
+			})
+		} catch (error) {
+			console.log(error.response)
+			logoutUser()
+		}
+		clearAlert()
+	}
+
+	useEffect(() => {
+		getJobs()
+	}, [])
 
 	return (
 		<AppContext.Provider

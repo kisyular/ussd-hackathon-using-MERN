@@ -17,7 +17,13 @@ const createInfo = async (req, res) => {
 
 //const getAllInfo = (req, res) => {}
 const getAllInfo = async (req, res) => {
-	res.send('Get All Info')
+	const infos = await Info.find({ createdBy: req.user.userId })
+
+	res.status(StatusCodes.OK).json({
+		infos,
+		totalInfos: infos.length,
+		numOfPages: 1,
+	})
 }
 
 //const deleteInfo = (req, res) => {}

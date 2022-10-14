@@ -14,6 +14,8 @@ import {
 	CREATE_INFO_BEGIN,
 	CREATE_INFO_SUCCESS,
 	CREATE_INFO_ERROR,
+	GET_INFO_BEGIN,
+	GET_INFO_SUCCESS,
 } from './actions'
 import { initialState } from './appContext'
 
@@ -134,6 +136,19 @@ const reducer = (state, action) => {
 			showAlert: true,
 			alertType: 'danger',
 			alertText: action.payload.msg,
+		}
+	}
+
+	if (action.type === GET_INFO_BEGIN) {
+		return { ...state, isLoading: true, showAlert: false }
+	}
+	if (action.type === GET_INFO_SUCCESS) {
+		return {
+			...state,
+			isLoading: false,
+			infos: action.payload.infos,
+			totalInfos: action.payload.totalInfos,
+			numOfPages: action.payload.numOfPages,
 		}
 	}
 }
