@@ -124,7 +124,7 @@ const reducer = (state, action) => {
 			isLoading: false,
 			showAlert: true,
 			alertType: 'success',
-			alertText: 'New Job Created!',
+			alertText: 'New Information Created!',
 		}
 	}
 	if (action.type === CREATE_INFO_ERROR) {

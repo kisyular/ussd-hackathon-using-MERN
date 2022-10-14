@@ -16,6 +16,8 @@ const AddInformation = () => {
 		handleChange,
 		clearValues,
 		createInfo,
+		about,
+		aboutOptions,
 	} = useAppContext()
 
 	const handleSubmit = (e) => {
@@ -51,15 +53,6 @@ const AddInformation = () => {
 					labelText='gestational diabetes information'
 				/>
 				<div className='form-center'>
-					{/* reference url */}
-					<FormRow
-						type='text'
-						labelText='Reference URL'
-						name='referenceURL'
-						value={referenceURL}
-						handleChange={handleInfoInput}
-					/>
-
 					{/* info frequency */}
 					<FormRowSelect
 						labelText='information frequency'
@@ -76,6 +69,22 @@ const AddInformation = () => {
 						value={status}
 						handleChange={handleInfoInput}
 						list={statusOptions}
+					/>
+
+					<FormRowSelect
+						labelText='select about'
+						name='about'
+						value={about}
+						handleChange={handleInfoInput}
+						list={aboutOptions}
+					/>
+					{/* reference url */}
+					<FormRow
+						type='text'
+						labelText='Reference URL'
+						name='referenceURL'
+						value={referenceURL}
+						handleChange={handleInfoInput}
 					/>
 
 					<div className='btn-container'>

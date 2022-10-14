@@ -7,11 +7,19 @@ const InfoSchema = new mongoose.Schema(
 			required: [true, 'Please provide information to share'],
 			maxlength: 200,
 		},
-		// position: {
-		// 	type: String,
-		// 	required: [true, 'Please provide position'],
-		// 	maxlength: 100,
-		// },
+		about: {
+			type: String,
+			enum: [
+				'symptoms',
+				'diagnosis',
+				'treatment',
+				'prevention',
+				'risk factors',
+				'management',
+			],
+			required: [true, 'Please provide position'],
+			maxlength: 100,
+		},
 		status: {
 			type: String,
 			enum: ['send', 'not send'],

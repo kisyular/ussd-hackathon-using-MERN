@@ -39,6 +39,15 @@ export const initialState = {
 	information: '',
 	referenceURL: '',
 	infoFrequencyOptions: ['weekly', 'monthly'],
+	about: 'symptoms',
+	aboutOptions: [
+		'symptoms',
+		'diagnosis',
+		'treatment',
+		'prevention',
+		'risk factors',
+		'management',
+	],
 	infoFrequency: 'weekly',
 	statusOptions: ['send', 'not send'],
 	status: 'not send',
@@ -185,13 +194,15 @@ const AppProvider = ({ children }) => {
 	const createInfo = async () => {
 		dispatch({ type: CREATE_INFO_BEGIN })
 		try {
-			const { information, infoFrequency, referenceURL, status } = state
+			const { information, infoFrequency, referenceURL, status, about } =
+				state
 
 			await authFetch.post('/info', {
 				information,
 				infoFrequency,
 				referenceURL,
 				status,
+				about,
 			})
 			dispatch({
 				type: CREATE_INFO_SUCCESS,
