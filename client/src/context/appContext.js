@@ -51,8 +51,8 @@ export const initialState = {
 		'management',
 	],
 	infoFrequency: 'weekly',
-	statusOptions: ['send', 'not send'],
-	status: 'not send',
+	statusOptions: ['sent', 'queued'],
+	status: 'queued',
 	infos: [],
 	totalInfos: 0,
 	numOfPages: 1,
@@ -225,7 +225,7 @@ const AppProvider = ({ children }) => {
 		clearAlert()
 	}
 
-	const getJobs = async () => {
+	const getInfo = async () => {
 		let url = `/info`
 
 		dispatch({ type: GET_INFO_BEGIN })
@@ -248,8 +248,15 @@ const AppProvider = ({ children }) => {
 	}
 
 	useEffect(() => {
-		getJobs()
+		getInfo()
 	}, [])
+
+	const setEditInfo = (id) => {
+		console.log(`set edit job : ${id}`)
+	}
+	const deleteInfo = (id) => {
+		console.log(`delete : ${id}`)
+	}
 
 	return (
 		<AppContext.Provider
@@ -263,6 +270,9 @@ const AppProvider = ({ children }) => {
 				handleChange,
 				clearValues,
 				createInfo,
+				getInfo,
+				setEditInfo,
+				deleteInfo,
 			}}
 		>
 			{children}

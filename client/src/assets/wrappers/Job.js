@@ -49,11 +49,11 @@ const Wrapper = styled.article`
 		background: #e0e8f9;
 		color: #647acb;
 	}
-	.declined {
+	.queued {
 		color: #d66a6a;
 		background: #ffeeee;
 	}
-	.accepted {
+	.sent {
 		background: #e9f9e9;
 		color: #5cb85c;
 	}
@@ -90,7 +90,6 @@ const Wrapper = styled.article`
 	.delete-btn {
 		letter-spacing: var(--letterSpacing);
 		cursor: pointer;
-		height: 30px;
 	}
 	.edit-btn {
 		color: var(--green-dark);

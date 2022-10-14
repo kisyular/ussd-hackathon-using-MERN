@@ -21,6 +21,7 @@ function App() {
 				>
 					<Route index element={<AllInformation />} />
 					<Route path='stats' element={<Stats />} />
+					<Route path='info/:id' element={<Stats />} />
 					<Route path='add-info' element={<AddInformation />} />
 					<Route path='profile' element={<Profile />} />
 				</Route>

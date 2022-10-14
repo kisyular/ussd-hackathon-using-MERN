@@ -112,7 +112,7 @@ const reducer = (state, action) => {
 			information: '',
 			referenceURL: '',
 			infoFrequency: 'weekly',
-			status: 'not send',
+			status: 'queued',
 		}
 		return { ...state, ...initialState }
 	}

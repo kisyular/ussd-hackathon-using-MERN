@@ -1,9 +1,10 @@
-import Wrapper from '../../assets/wrappers/DashboardFormPage'
+import { JobsContainer, SearchContainer } from '../../components'
 const AllInformation = () => {
 	return (
-		<Wrapper>
-			<h1> All Information</h1>
-		</Wrapper>
+		<>
+			<SearchContainer />
+			<JobsContainer />
+		</>
 	)
 }
 

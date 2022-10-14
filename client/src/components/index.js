@@ -7,6 +7,8 @@ import SmallSidebar from './SmallSidebar'
 import FormRow from './FormRow'
 import FormTextArea from './FormTextArea'
 import FormRowSelect from './FormRowSelect'
+import SearchContainer from './SearchContainer'
+import JobsContainer from './JobsContainer'
 export {
 	Logo,
 	Alert,
@@ -17,4 +19,6 @@ export {
 	FormRow,
 	FormTextArea,
 	FormRowSelect,
+	SearchContainer,
+	JobsContainer,
 }
