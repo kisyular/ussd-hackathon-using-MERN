@@ -21,7 +21,13 @@ const Info = ({
 
 	const popover = (
 		<Popover id='popover-basic'>
-			<Popover.Header as='h3'>{referenceURL}</Popover.Header>
+			<Popover.Header as='h3'>
+				{
+					<a target='_blank' href={referenceURL} rel='noreferrer'>
+						View Reference
+					</a>
+				}
+			</Popover.Header>
 			<Popover.Body>{information}</Popover.Body>
 		</Popover>
 	)
@@ -38,19 +44,30 @@ const Info = ({
 			<div className='content'>
 				{/* content center later */}
 				<div className='content-center'>
-					<JobInfo icon={<FaLocationArrow />} text={referenceURL} />
+					<JobInfo
+						icon={<FaLocationArrow />}
+						text={
+							<a
+								target='_blank'
+								href={referenceURL}
+								rel='noreferrer'
+							>
+								Reference
+							</a>
+						}
+					/>
 					<div className={`status ${status}`}>{status}</div>
 					<JobInfo icon={<FaCalendarAlt />} text={date} />
 				</div>
 				<div className='content-bottom'>
-					{information.substring(0, 100)}
+					{information.substring(0, 100)}{' '}
 					{information.length > 100 && (
 						<OverlayTrigger
 							trigger='click'
 							placement='top'
 							overlay={popover}
 						>
-							<Link variant='success'>read more</Link>
+							<Link variant='success'> read more</Link>
 						</OverlayTrigger>
 					)}
 				</div>

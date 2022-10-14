@@ -8,7 +8,7 @@ const FormTextArea = ({ type, name, value, handleChange, labelText }) => {
 			<textarea
 				type={type}
 				value={value}
-				style={{ height: '50px' }}
+				style={{ height: '60px' }}
 				name={name}
 				onChange={handleChange}
 				className='form-input'

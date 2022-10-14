@@ -16,6 +16,7 @@ import {
 	CREATE_INFO_ERROR,
 	GET_INFO_BEGIN,
 	GET_INFO_SUCCESS,
+	SET_EDIT_INFO,
 } from './actions'
 import { initialState } from './appContext'
 
@@ -142,6 +143,7 @@ const reducer = (state, action) => {
 	if (action.type === GET_INFO_BEGIN) {
 		return { ...state, isLoading: true, showAlert: false }
 	}
+
 	if (action.type === GET_INFO_SUCCESS) {
 		return {
 			...state,
@@ -149,6 +151,22 @@ const reducer = (state, action) => {
 			infos: action.payload.infos,
 			totalInfos: action.payload.totalInfos,
 			numOfPages: action.payload.numOfPages,
+		}
+	}
+
+	if (action.type === SET_EDIT_INFO) {
+		const info = state.infos.find((info) => info._id === action.payload.id)
+		const { _id, information, infoFrequency, referenceURL, about, status } =
+			info
+		return {
+			...state,
+			isEditing: true,
+			editInfoId: _id,
+			information,
+			infoFrequency,
+			referenceURL,
+			about,
+			status,
 		}
 	}
 }

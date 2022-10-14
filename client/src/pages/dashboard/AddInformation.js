@@ -18,6 +18,7 @@ const AddInformation = () => {
 		createInfo,
 		about,
 		aboutOptions,
+		editInfo,
 	} = useAppContext()
 
 	const handleSubmit = (e) => {
@@ -29,6 +30,7 @@ const AddInformation = () => {
 		}
 		if (isEditing) {
 			// updateInfo()
+			editInfo()
 			return
 		}
 		createInfo()

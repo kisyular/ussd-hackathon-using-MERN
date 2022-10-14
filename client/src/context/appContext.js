@@ -20,6 +20,7 @@ import {
 	CREATE_INFO_ERROR,
 	GET_INFO_BEGIN,
 	GET_INFO_SUCCESS,
+	SET_EDIT_INFO,
 } from './actions'
 
 // set as default
@@ -252,7 +253,11 @@ const AppProvider = ({ children }) => {
 	}, [])
 
 	const setEditInfo = (id) => {
-		console.log(`set edit job : ${id}`)
+		dispatch({ type: SET_EDIT_INFO, payload: { id } })
+	}
+
+	const editInfo = () => {
+		console.log('edit job')
 	}
 	const deleteInfo = (id) => {
 		console.log(`delete : ${id}`)
@@ -273,6 +278,7 @@ const AppProvider = ({ children }) => {
 				getInfo,
 				setEditInfo,
 				deleteInfo,
+				editInfo,
 			}}
 		>
 			{children}

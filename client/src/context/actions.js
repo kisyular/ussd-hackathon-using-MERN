@@ -23,3 +23,5 @@ export const CREATE_INFO_ERROR = 'CREATE_INFO_ERROR'
 
 export const GET_INFO_BEGIN = 'GET_INFO_BEGIN'
 export const GET_INFO_SUCCESS = 'GET_INFO_SUCCESS'
+
+export const SET_EDIT_INFO = 'SET_EDIT_INFO'
