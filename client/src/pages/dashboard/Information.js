@@ -3,6 +3,8 @@ import Wrapper from '../../assets/wrappers/DashboardFormPage'
 import { useAppContext } from '../../context/appContext'
 import { useNavigate } from 'react-router-dom'
 import Card from 'react-bootstrap/Card'
+import Loading from '../../components/Loading'
+import Alert from '../../components/Alert'
 
 const Information = () => {
 	const {
@@ -10,6 +12,9 @@ const Information = () => {
 		subscribers,
 		// displayAlert,
 		infoToSend,
+		isLoading,
+		sendInfo,
+		showAlert,
 	} = useAppContext()
 	const navigate = useNavigate()
 
@@ -19,9 +24,13 @@ const Information = () => {
 		}
 	}, [subscribers, infoToSend, navigate])
 
-	console.log(subscribers)
+	if (isLoading) {
+		return <Loading center />
+	}
 	return (
 		<Wrapper>
+			{showAlert && <Alert />}
+
 			<Card>
 				<Card.Header as='h5'>Send Information</Card.Header>
 				<Card.Body>
@@ -41,6 +50,7 @@ const Information = () => {
 					<button
 						style={{ marginRight: '10px' }}
 						className='btn view-btn'
+						onClick={sendInfo}
 					>
 						Send Information
 					</button>

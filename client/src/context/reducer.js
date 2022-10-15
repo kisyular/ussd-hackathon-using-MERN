@@ -28,6 +28,10 @@ import {
 	GET_SUBSCRIBERS_BEGIN,
 	GET_SUBSCRIBERS_SUCCESS,
 	SET_INFO_TO_SEND,
+	SEND_INFO_BEGIN,
+	SEND_INFO_SUCCESS,
+	SEND_INFO_ERROR,
+	CLEAR_INFO_AFTER_SENDING,
 } from './actions'
 import { initialState } from './appContext'
 
@@ -269,6 +273,32 @@ const reducer = (state, action) => {
 
 	if (action.type === SET_INFO_TO_SEND) {
 		return { ...state, infoToSend: action.payload.infoToSend }
+	}
+
+	if (action.type === SEND_INFO_BEGIN) {
+		return { ...state, isLoading: true }
+	}
+
+	if (action.type === SEND_INFO_SUCCESS) {
+		return {
+			...state,
+			isLoading: false,
+			showAlert: true,
+			alertType: 'success',
+			alertText: 'Information Sent!',
+		}
+	}
+	if (action.type === SEND_INFO_ERROR) {
+		return {
+			...state,
+			isLoading: false,
+			showAlert: true,
+			alertType: 'danger',
+			alertText: action.payload.msg,
+		}
+	}
+	if (action.type === CLEAR_INFO_AFTER_SENDING) {
+		return { ...state, infoToSend: '', subscribers: [] }
 	}
 }
 

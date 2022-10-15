@@ -6,10 +6,11 @@ const {
 	CustomError,
 } = require('../errors/index.js')
 const checkPermissions = require('../utils/checkPermissions.js')
-const mongoose = require('mongoose')
+// const mongoose = require('mongoose')
 const moment = require('moment')
 const User = require('../models/user')
 const sendSMS = require('../utils/sms')
+const translate = require('../utils/translate')
 
 //const createInfo = (req, res) => {}
 const createInfo = async (req, res) => {
@@ -199,17 +200,13 @@ const showStats = async (req, res) => {
 }
 
 const getSubscribers = async (req, res) => {
-	let phoneNumbersArray = {}
 	let phoneNumbers = []
 	const subscribers = await User.find({
 		subscribed: true,
-		frequency: 'monthly',
-	})
+		// frequency: 'monthly',
+	}).select('phoneNumber language')
 	subscribers.forEach(async (subscriber) => {
-		const { phoneNumber, language } = subscriber
-		phoneNumbersArray['phoneNumber'] = phoneNumber
-		phoneNumbersArray['language'] = language
-		phoneNumbers.push(phoneNumbersArray)
+		phoneNumbers.push(subscriber)
 	})
 	res.status(StatusCodes.OK).json({ subscribers: phoneNumbers })
 }
@@ -220,15 +217,11 @@ const sendSMStoSubscribers = async (req, res) => {
 		throw new BadRequestError('Please Provide All Values')
 	}
 	//loop through phone numbers and send sms
-	phoneNumbers.forEach(async (phoneNumber) => {
-		const sms = await sendSMS(phoneNumber, message)
-		//check if sms was sent
-		if (sms) {
-			res.status(StatusCodes.OK).json({ msg: 'SMS sent successfully' })
-		} else {
-			res.status(StatusCodes.OK).json({ msg: 'SMS not sent' })
-		}
+	phoneNumbers.forEach(async (subscriber) => {
+		const { phoneNumber, language } = subscriber
+		await sendSMS(phoneNumber, await translate(message, language || 'en'))
 	})
+	res.status(StatusCodes.OK).json({ msg: 'Success! SMS sent' })
 }
 
 //module.exports = { createInfo, getAllInfo, deleteInfo, updateInfo }

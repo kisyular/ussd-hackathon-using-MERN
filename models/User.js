@@ -21,10 +21,6 @@ const UserSchema = new Schema({
 		type: String,
 		default: 'en',
 	},
-	invalidEntryCount: {
-		type: Number,
-		default: 0,
-	},
 	subscribed: {
 		type: Boolean,
 		default: false,

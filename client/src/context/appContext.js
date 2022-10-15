@@ -32,6 +32,10 @@ import {
 	GET_SUBSCRIBERS_BEGIN,
 	GET_SUBSCRIBERS_SUCCESS,
 	SET_INFO_TO_SEND,
+	SEND_INFO_BEGIN,
+	SEND_INFO_SUCCESS,
+	SEND_INFO_ERROR,
+	CLEAR_INFO_AFTER_SENDING,
 } from './actions'
 
 // set as default
@@ -81,7 +85,7 @@ export const initialState = {
 	subscribers: [],
 	infoToSend: '',
 }
-const BASE_URL = 'http://localhost:8080/api'
+const BASE_URL = 'https://ussd-hackathon.azurewebsites.net/api'
 const AppContext = React.createContext()
 const AppProvider = ({ children }) => {
 	const [state, dispatch] = useReducer(reducer, initialState)
@@ -381,6 +385,39 @@ const AppProvider = ({ children }) => {
 		clearAlert()
 	}
 
+	const clearInfoAfterSending = () => {
+		setTimeout(() => {
+			dispatch({
+				type: CLEAR_INFO_AFTER_SENDING,
+			})
+		}, 3000)
+	}
+
+	const sendInfo = async () => {
+		dispatch({ type: SEND_INFO_BEGIN })
+		try {
+			const { subscribers, infoToSend } = state
+			// console.log(subscribers)
+
+			await authFetch.post('/info/subscribers/send', {
+				message: infoToSend,
+				phoneNumbers: subscribers,
+			})
+			dispatch({
+				type: SEND_INFO_SUCCESS,
+			})
+			clearInfoAfterSending()
+		} catch (error) {
+			dispatch({
+				type: SEND_INFO_ERROR,
+				payload: { msg: error.response.data.msg },
+			})
+			console.log(error.response)
+			// logoutUser()
+		}
+		clearAlert()
+	}
+
 	return (
 		<AppContext.Provider
 			value={{
@@ -402,6 +439,7 @@ const AppProvider = ({ children }) => {
 				changePage,
 				getSubscribers,
 				setInfoToSend,
+				sendInfo,
 			}}
 		>
 			{children}
