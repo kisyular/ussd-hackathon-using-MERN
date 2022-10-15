@@ -32,14 +32,8 @@ In future, I will add the following features
 -   Add more languages
 -   Push the application to the live environment
 
-`````sh
-
-```sh
-
-````sh
-
 ```sh
 npm start
-`````
+```
 
 -   visit url http://localhost:8080/
