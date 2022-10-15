@@ -5,6 +5,12 @@
 Project in Action - [AFYA-MAMA](https://afyamama.kisyula.com/)
 Due to high volume of data, you can not register.
 
+## Demo Pictures
+
+![Register](./images/register.png)
+![Dasboard](./images/dashboard.png)
+![Send Data](./images/send.png)
+
 ### Support
 
 Find the App Useful? [You can HIRE ME](https://github.com/kisyular)
