@@ -87,9 +87,11 @@ const Wrapper = styled.article`
 		margin-top: 1rem;
 	}
 	.edit-btn,
-	.delete-btn {
+	.delete-btn,
+	.view-btn {
 		letter-spacing: var(--letterSpacing);
 		cursor: pointer;
+		min-width: 100px;
 	}
 	.edit-btn {
 		color: var(--green-dark);
@@ -99,6 +101,16 @@ const Wrapper = styled.article`
 	.delete-btn {
 		color: var(--red-dark);
 		background: var(--red-light);
+	}
+	.view-btn {
+		color: var(--blue-dark);
+		background: var(--blue-light);
+		margin-left: 0.5rem;
+	}
+	.prepare-btn {
+		color: var(--yellow-dark);
+		background: var(--yellow-light);
+		margin-left: 0.5rem;
 	}
 	&:hover .actions {
 		visibility: visible;

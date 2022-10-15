@@ -42,7 +42,10 @@ html {
 	--red-dark: #842029;
 	--green-light: #d1e7dd;
 	--green-dark: #0f5132;
-
+	--blue-dark: #004085;
+	--blue-light: #cce5ff;
+	--yellow-light: #fff3cd;
+	--yellow-dark: #664d03;
 	/* fonts  */
 	--headingFont: 'Roboto Condensed', Sans-Serif;
 	--bodyFont: 'Cabin', Sans-Serif;

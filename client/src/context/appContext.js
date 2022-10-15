@@ -29,6 +29,9 @@ import {
 	SHOW_STATS_SUCCESS,
 	CLEAR_FILTERS,
 	CHANGE_PAGE,
+	GET_SUBSCRIBERS_BEGIN,
+	GET_SUBSCRIBERS_SUCCESS,
+	SET_INFO_TO_SEND,
 } from './actions'
 
 // set as default
@@ -75,6 +78,8 @@ export const initialState = {
 	searchFrequency: 'all',
 	sort: 'latest',
 	sortOptions: ['latest', 'oldest', 'a-z', 'z-a'],
+	subscribers: [],
+	infoToSend: '',
 }
 const BASE_URL = 'http://localhost:8080/api'
 const AppContext = React.createContext()
@@ -354,6 +359,28 @@ const AppProvider = ({ children }) => {
 		dispatch({ type: CHANGE_PAGE, payload: { page } })
 	}
 
+	const setInfoToSend = (infoToSend) => {
+		dispatch({ type: SET_INFO_TO_SEND, payload: { infoToSend } })
+	}
+
+	const getSubscribers = async (infoToSend) => {
+		dispatch({ type: GET_SUBSCRIBERS_BEGIN })
+		setInfoToSend(infoToSend)
+		try {
+			const { data } = await authFetch('info/subscribers')
+			dispatch({
+				type: GET_SUBSCRIBERS_SUCCESS,
+				payload: {
+					subscribers: data.subscribers,
+				},
+			})
+		} catch (error) {
+			console.log(error.response)
+			logoutUser()
+		}
+		clearAlert()
+	}
+
 	return (
 		<AppContext.Provider
 			value={{
@@ -373,6 +400,8 @@ const AppProvider = ({ children }) => {
 				showStats,
 				clearFilters,
 				changePage,
+				getSubscribers,
+				setInfoToSend,
 			}}
 		>
 			{children}

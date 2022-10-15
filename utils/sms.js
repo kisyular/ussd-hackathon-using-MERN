@@ -13,8 +13,12 @@ const sms = AfricasTalking.SMS
 
 const sendSMS = async (phoneNumber, message) => {
 	// Use the service to send a message
-	const response = await sms.send({ to: phoneNumber, message })
-	return response
+	try {
+		const response = await sms.send({ to: phoneNumber, message })
+		return response
+	} catch (error) {
+		return null
+	}
 }
 
 // export the function

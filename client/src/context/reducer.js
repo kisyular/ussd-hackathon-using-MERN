@@ -25,6 +25,9 @@ import {
 	SHOW_STATS_SUCCESS,
 	CLEAR_FILTERS,
 	CHANGE_PAGE,
+	GET_SUBSCRIBERS_BEGIN,
+	GET_SUBSCRIBERS_SUCCESS,
+	SET_INFO_TO_SEND,
 } from './actions'
 import { initialState } from './appContext'
 
@@ -198,7 +201,7 @@ const reducer = (state, action) => {
 			isLoading: false,
 			showAlert: true,
 			alertType: 'success',
-			alertText: 'Job Updated!',
+			alertText: 'Info Updated!',
 		}
 	}
 
@@ -250,6 +253,22 @@ const reducer = (state, action) => {
 			page: 1,
 			[action.payload.name]: action.payload.value,
 		}
+	}
+
+	if (action.type === GET_SUBSCRIBERS_BEGIN) {
+		return { ...state, isLoading: true, showAlert: false }
+	}
+
+	if (action.type === GET_SUBSCRIBERS_SUCCESS) {
+		return {
+			...state,
+			isLoading: false,
+			subscribers: action.payload.subscribers,
+		}
+	}
+
+	if (action.type === SET_INFO_TO_SEND) {
+		return { ...state, infoToSend: action.payload.infoToSend }
 	}
 }
 

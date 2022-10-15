@@ -4,8 +4,10 @@ import { useAppContext } from '../context/appContext'
 import Wrapper from '../assets/wrappers/Job'
 import JobInfo from './JobInfo'
 import moment from 'moment'
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
-import Popover from 'react-bootstrap/Popover'
+
+import React, { useState } from 'react'
+import Modal from 'react-bootstrap/Modal'
+
 const Info = ({
 	_id,
 	about,
@@ -15,25 +17,34 @@ const Info = ({
 	referenceURL,
 	information,
 }) => {
-	const { setEditInfo, deleteInfo } = useAppContext()
+	const { setEditInfo, deleteInfo, getSubscribers } = useAppContext()
 
 	let date = moment(createdAt).format('MMM Do, YYYY')
+	const [show, setShow] = useState(false)
 
-	const popover = (
-		<Popover id='popover-basic'>
-			<Popover.Header as='h3'>
-				{
-					<a target='_blank' href={referenceURL} rel='noreferrer'>
-						View Reference
-					</a>
-				}
-			</Popover.Header>
-			<Popover.Body>{information}</Popover.Body>
-		</Popover>
-	)
+	const handleClose = () => {
+		setShow(false)
+	}
+	const handleShow = () => setShow(true)
+
+	function ShowMoreInfo() {
+		return (
+			<>
+				<Modal show={show} onHide={handleClose} size='lg'>
+					<Modal.Header closeButton>
+						<Modal.Title>
+							<h5>{about}</h5>
+						</Modal.Title>
+					</Modal.Header>
+					<Modal.Body>{information}</Modal.Body>
+				</Modal>
+			</>
+		)
+	}
 
 	return (
 		<Wrapper>
+			<ShowMoreInfo />
 			<header>
 				<div className='main-icon'>{about.charAt(0)}</div>
 				<div className='info'>
@@ -60,15 +71,12 @@ const Info = ({
 					<JobInfo icon={<FaCalendarAlt />} text={date} />
 				</div>
 				<div className='content-bottom'>
-					{information.substring(0, 100)}{' '}
+					{information.substring(0, 100)}
 					{information.length > 100 && (
-						<OverlayTrigger
-							trigger='click'
-							placement='top'
-							overlay={popover}
-						>
-							<Link variant='success'> read more</Link>
-						</OverlayTrigger>
+						<Link onClick={handleShow} variant='success'>
+							{' '}
+							read more
+						</Link>
 					)}
 				</div>
 				<footer>
@@ -87,6 +95,15 @@ const Info = ({
 						>
 							Delete
 						</button>
+
+						<Link
+							type='button'
+							to={_id}
+							className='btn view-btn'
+							onClick={() => getSubscribers(information)}
+						>
+							Send Info
+						</Link>
 					</div>
 				</footer>
 			</div>

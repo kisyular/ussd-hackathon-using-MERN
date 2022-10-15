@@ -6,6 +6,7 @@ import {
 	SharedLayout,
 	Profile,
 	Stats,
+	Information,
 } from './pages/dashboard'
 function App() {
 	return (
@@ -21,7 +22,7 @@ function App() {
 				>
 					<Route index element={<Stats />} />
 					<Route path='all-info' element={<AllInformation />} />
-					<Route path='info/:id' element={<Stats />} />
+					<Route path='all-info/:id' element={<Information />} />
 					<Route path='add-info' element={<AddInformation />} />
 					<Route path='profile' element={<Profile />} />
 				</Route>

@@ -8,6 +8,8 @@ const {
 	deleteInfo,
 	updateInfo,
 	showStats,
+	getSubscribers,
+	sendSMStoSubscribers,
 } = require('../controllers/infoController')
 
 //create routes
@@ -20,5 +22,7 @@ router
 	.delete(authenticateUser, deleteInfo)
 	.patch(authenticateUser, updateInfo)
 router.route('/stats').get(authenticateUser, showStats)
+router.route('/subscribers').get(authenticateUser, getSubscribers)
+router.route('/subscribers/send').post(authenticateUser, sendSMStoSubscribers)
 
 module.exports = router
