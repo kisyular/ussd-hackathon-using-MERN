@@ -30,7 +30,7 @@ const createInfo = async (req, res) => {
 const getAllInfo = async (req, res) => {
 	const { status, about, sort, search, infoFrequency } = req.query
 	const queryObject = {
-		createdBy: req.user.userId,
+		// createdBy: req.user.userId,
 	}
 
 	if (status && status !== 'all') {
@@ -59,10 +59,10 @@ const getAllInfo = async (req, res) => {
 		result = result.sort('createdAt')
 	}
 	if (sort === 'a-z') {
-		result = result.sort('position')
+		result = result.sort('about')
 	}
 	if (sort === 'z-a') {
-		result = result.sort('-position')
+		result = result.sort('-about')
 	}
 
 	// setup pagination

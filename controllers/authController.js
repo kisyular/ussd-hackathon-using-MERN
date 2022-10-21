@@ -9,7 +9,7 @@ const register = async (req, res) => {
 	if (!name || !email || !password) {
 		throw new BadRequestError('Please provide all values')
 	}
-	if (email !== 'rellikakisyula@gmail.com') {
+	if (email !== 'afya.mama.app@gmail.com') {
 		throw new UnAuthenticatedError('You are not authorized to register')
 	}
 
