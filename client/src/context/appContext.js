@@ -86,6 +86,7 @@ export const initialState = {
 	infoToSend: '',
 }
 const BASE_URL = 'https://ussd-hackathon.azurewebsites.net/api'
+// const BASE_URL = 'http://localhost:8080/api'
 const AppContext = React.createContext()
 const AppProvider = ({ children }) => {
 	const [state, dispatch] = useReducer(reducer, initialState)

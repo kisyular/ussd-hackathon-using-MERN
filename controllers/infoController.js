@@ -6,7 +6,7 @@ const {
 	CustomError,
 } = require('../errors/index.js')
 const checkPermissions = require('../utils/checkPermissions.js')
-// const mongoose = require('mongoose')
+const mongoose = require('mongoose')
 const moment = require('moment')
 const User = require('../models/user')
 const sendSMS = require('../utils/sms')
@@ -30,7 +30,7 @@ const createInfo = async (req, res) => {
 const getAllInfo = async (req, res) => {
 	const { status, about, sort, search, infoFrequency } = req.query
 	const queryObject = {
-		// createdBy: req.user.userId,
+		createdBy: req.user.userId,
 	}
 
 	if (status && status !== 'all') {
@@ -135,11 +135,11 @@ const reduceStats = (stats) => {
 
 const showStats = async (req, res) => {
 	let about = await Info.aggregate([
-		// { $match: { createdBy: mongoose.Types.ObjectId(req.user.userId) } },
+		{ $match: { createdBy: mongoose.Types.ObjectId(req.user.userId) } },
 		{ $group: { _id: '$about', count: { $sum: 1 } } },
 	])
 	let status = await Info.aggregate([
-		// { $match: { createdBy: mongoose.Types.ObjectId(req.user.userId) } },
+		{ $match: { createdBy: mongoose.Types.ObjectId(req.user.userId) } },
 		{ $group: { _id: '$status', count: { $sum: 1 } } },
 	])
 
@@ -159,7 +159,7 @@ const showStats = async (req, res) => {
 		queued: status.queued || 0,
 	}
 	let monthlyApplications = await Info.aggregate([
-		// { $match: { createdBy: mongoose.Types.ObjectId(req.user.userId) } },
+		{ $match: { createdBy: mongoose.Types.ObjectId(req.user.userId) } },
 		{
 			$group: {
 				_id: {
@@ -224,7 +224,6 @@ const sendSMStoSubscribers = async (req, res) => {
 	res.status(StatusCodes.OK).json({ msg: 'Success! SMS sent' })
 }
 
-//module.exports = { createInfo, getAllInfo, deleteInfo, updateInfo }
 module.exports = {
 	createInfo,
 	getAllInfo,
