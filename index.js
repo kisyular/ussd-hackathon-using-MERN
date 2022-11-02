@@ -35,3 +35,7 @@ app.post('/', (req, res) => {
 	res.set('Content-Type: text/plain')
 	res.send(response)
 })
+
+//Add port to listen to
+const port = process.env.PORT || 8080
+app.listen(port)
