@@ -10,6 +10,7 @@ const {
 	showStats,
 	getSubscribers,
 	sendSMStoSubscribers,
+	markInfoSend,
 } = require('../controllers/infoController')
 
 //create routes
@@ -24,5 +25,6 @@ router
 router.route('/stats').get(authenticateUser, showStats)
 router.route('/subscribers').get(authenticateUser, getSubscribers)
 router.route('/subscribers/send').post(authenticateUser, sendSMStoSubscribers)
+router.route('/mark/:id').patch(authenticateUser, markInfoSend)
 
 module.exports = router

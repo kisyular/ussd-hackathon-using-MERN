@@ -66,6 +66,12 @@ app.post('/', async (req, res) => {
 	if (cleanText === 'EXITMENU') {
 		response = 'END Thank you for using this service'
 	}
+
+	//If user is registered and cleanText is empty
+	else if (cleanText == '') {
+		response = `CON Test Passed`
+	}
+
 	//If user is registered and cleanText is empty
 	else if (cleanText == '' && userIsRegistered) {
 		const language = user.language

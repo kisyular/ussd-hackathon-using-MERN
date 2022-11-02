@@ -12,7 +12,15 @@ const InfoRequestSchema = new Schema(
 		},
 		info: {
 			type: String,
-			required: true,
+			enum: [
+				'symptoms',
+				'diagnosis',
+				'treatment',
+				'prevention',
+				'risk factors',
+				'management during pregnancy',
+				'management after pregnancy',
+			],
 		},
 	},
 	{

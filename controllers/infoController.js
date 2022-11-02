@@ -11,6 +11,7 @@ const moment = require('moment')
 const User = require('../models/user')
 const sendSMS = require('../utils/sms')
 const translate = require('../utils/translate')
+const InfoRequest = require('../models/InfoRequest')
 
 //const createInfo = (req, res) => {}
 const createInfo = async (req, res) => {
@@ -143,8 +144,13 @@ const showStats = async (req, res) => {
 		{ $group: { _id: '$status', count: { $sum: 1 } } },
 	])
 
+	let infoRequest = await InfoRequest.aggregate([
+		{ $group: { _id: '$info', count: { $sum: 1 } } },
+	])
+
 	about = reduceStats(about)
 	status = reduceStats(status)
+	infoRequest = reduceStats(infoRequest)
 
 	const defaultAbout = {
 		symptoms: about.symptoms || 0,
@@ -158,6 +164,18 @@ const showStats = async (req, res) => {
 		sent: status.sent || 0,
 		queued: status.queued || 0,
 	}
+
+	const defaultInfoRequest = {
+		definition: infoRequest.definition || 0,
+		symptoms: infoRequest.symptoms || 0,
+		prevention: infoRequest.prevention || 0,
+		treatment: infoRequest.treatment || 0,
+		diagnosis: infoRequest.diagnosis || 0,
+		risk_factors: infoRequest['risk factors'] || 0,
+		management_during: infoRequest['management during pregnancy'] || 0,
+		management_after: infoRequest['management after pregnancy'] || 0,
+	}
+
 	let monthlyApplications = await Info.aggregate([
 		{ $match: { createdBy: mongoose.Types.ObjectId(req.user.userId) } },
 		{
@@ -195,6 +213,7 @@ const showStats = async (req, res) => {
 	res.status(StatusCodes.OK).json({
 		defaultAbout,
 		defaultStatus,
+		defaultInfoRequest,
 		monthlyApplications,
 	})
 }
@@ -209,6 +228,25 @@ const getSubscribers = async (req, res) => {
 		phoneNumbers.push(subscriber)
 	})
 	res.status(StatusCodes.OK).json({ subscribers: phoneNumbers })
+}
+
+const markInfoSend = async (req, res) => {
+	const { id: infoId } = req.params
+	const info = await Info.findOne({ _id: infoId })
+	if (!info) {
+		throw new NotFoundError(`No information with id ${infoId}`)
+	}
+
+	const updatedInfo = await Info.findOneAndUpdate(
+		{ _id: infoId },
+		{ status: 'sent' },
+		{
+			new: true,
+			runValidators: true,
+		}
+	)
+
+	res.status(StatusCodes.OK).json({ updatedInfo })
 }
 
 const sendSMStoSubscribers = async (req, res) => {
@@ -232,4 +270,5 @@ module.exports = {
 	showStats,
 	getSubscribers,
 	sendSMStoSubscribers,
+	markInfoSend,
 }
