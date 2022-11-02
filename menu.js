@@ -6,11 +6,11 @@ const sendSMS = require('./utils/sms')
 let response = ''
 const mainMenuNotregistered = () => {
 	response = `Welcome to Afya Mama choose your language 
-	1: English 
-	2: Kiswahili 
-	3: Help and Emergency 
-	4: Talk to health official 
-	100: Exit`
+	1 English 
+	2 Kiswahili 
+	3 Help and Emergency 
+	4 Talk to health official 
+	100 Exit`
 	return response
 }
 
@@ -19,10 +19,10 @@ const registerMenu = async (textArray, phoneNumber, language) => {
 	if (count == 1) {
 		response = await translate(
 			`Afya Mama empowers pregnant mothers with knowledge on hypertensive disorders during pregnancy
-			1:Register
-			98:Go back
-			99:Go to main menu
-			100:Exit`,
+			1 Register
+			98 Go back
+			99 Go to main menu
+			100 Exit`,
 			language
 		)
 	} else if (count == 2 && textArray[1] == 1) {
