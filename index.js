@@ -46,33 +46,66 @@ app.post('/', async (req, res) => {
 	// Read the variables sent via POST from our API
 	const { sessionId, serviceCode, phoneNumber, text } = req.body
 	const userIsRegistered = await isRegistered(phoneNumber)
-	const cleanText = await middleware(text)
+	const cleanText = await middleware(text, sessionId, phoneNumber)
+	const user = await User.findOne({ phoneNumber })
 
 	let response = ''
-
-	//If user is not registered and cleanText is empty
-	if (cleanText == '' && !userIsRegistered) {
-		// This is the first request. Note how we start the response with CON
-		response = `CON Welcome to Afya Mama choose your language
-        1. English
-        2. Kiswahili
-		3. Emergency`
-	} else if (text == '1') {
-		// Business logic for first level response
-		response = `CON Choose account information you want to view
-        1. Account number`
-	} else if (text == '2') {
-		// Business logic for first level response
-		// This is a terminal request. Note how we start the response with END
-		response = `END Your phone number is ${phoneNumber}`
-	} else if (text == '1*1') {
-		// This is a second level response where the user selected 1 in the first instance
-		const accountNumber = 'ACC100101'
-		// This is a terminal request. Note how we start the response with END
-		response = `END Your account number is ${accountNumber}`
+	if (cleanText === 'EXITMENU') {
+		response = 'END Thank you for using this service'
 	}
 
-	// Send the response back to the API
+	//If user is registered and cleanText is empty
+	else if (userIsRegistered && cleanText == '') {
+		const language = user.language
+		//pass language to the mainMenuRegistered function
+		response = await mainMenuRegistered(user.name, language)
+	}
+
+	//If user is registered and cleanText is not empty
+	else if (userIsRegistered && cleanText != '') {
+		const language = user.language
+		const textArray = cleanText.split('*')
+		if (cleanText[0] == 1) {
+			response = await gestationalDiabetesMenu(
+				textArray,
+				language,
+				phoneNumber
+			)
+		} else if (cleanText[0] == 2) {
+			response = await settingMenu(textArray, language, user)
+		} else if (cleanText[0] == 3) {
+			response = await subscribeMenu(textArray, user, language)
+		} else {
+			response = 'END Invalid option'
+		}
+	}
+	//If user is not registered and cleanText is empty
+	else if (cleanText == '' && !userIsRegistered) {
+		response = `CON ${mainMenuNotregistered()}`
+	}
+
+	//If user is not registered and cleanText is not empty
+	else if (!userIsRegistered && cleanText !== '') {
+		if (cleanText[0] == '1') {
+			response = `CON ${await registerMenu(
+				cleanText.split('*'),
+				phoneNumber,
+				'en'
+			)}`
+		} else if (cleanText[0] == '2') {
+			response = `CON ${await registerMenu(
+				cleanText.split('*'),
+				phoneNumber,
+				'sw'
+			)}`
+		} else if (cleanText[0] == '3') {
+			response = `END Please call 999 112 or 911`
+		} else if (cleanText[0] == '4') {
+			response = `END Our plan was to connect the patient with a couple gyenacologist If we move forward to the next phase we will consult 4 gyenacologist for their services`
+		} else {
+			response = `END Invalid entry. Please try again`
+		}
+	}
 	res.set('Content-Type: text/plain')
 	res.send(response)
 })
