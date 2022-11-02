@@ -11,14 +11,20 @@ const AfricasTalking = require('africastalking')(credentials)
 // Get the SMS service
 const sms = AfricasTalking.SMS
 
+// const sendSMS = async (phoneNumber, message) => {
+// 	// Use the service to send a message
+// 	try {
+// 		const response = await sms.send({ to: phoneNumber, message })
+// 		return response
+// 	} catch (error) {
+// 		return null
+// 	}
+// }
+
 const sendSMS = async (phoneNumber, message) => {
-	// Use the service to send a message
-	try {
-		const response = await sms.send({ to: phoneNumber, message })
-		return response
-	} catch (error) {
-		return null
-	}
+	//Console log the inputs
+	console.log(phoneNumber, message)
+	//later on, use the service to send a message
 }
 
 // export the function

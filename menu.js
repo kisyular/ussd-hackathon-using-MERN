@@ -1,4 +1,5 @@
 const User = require('./models/user')
+const InfoRequest = require('./models/InfoRequest')
 const translate = require('./utils/translate')
 const sendSMS = require('./utils/sms')
 
@@ -89,6 +90,7 @@ const mainMenuRegistered = async (name, language) => {
 }
 
 const gestationalDiabetesMenu = async (textArray, language, phoneNumber) => {
+	const user = await User.findOne({ phoneNumber })
 	const level = textArray.length
 	if (level === 1) {
 		response = await translate(
@@ -111,6 +113,12 @@ const gestationalDiabetesMenu = async (textArray, language, phoneNumber) => {
 				language
 			)
 			await sendSMS(phoneNumber, response.replace('98. Go back', ''))
+			//save the info request to the database
+			const infoRequest = new InfoRequest({
+				requestedBy: user._id,
+				info: 'definition',
+			})
+			await infoRequest.save()
 		} else if (textArray[1] == 2) {
 			response = await translate(
 				`Gestational diabetes usually doesn’t have any symptoms but look out for heightened symptoms of pregnancy and repetitive yeast infections.
@@ -182,7 +190,7 @@ const settingMenu = async (textArray, language, user) => {
 	const level = textArray.length
 	if (level === 1) {
 		response = await translate(
-			`CON Settings
+			`CON Change your settings
 		1. Change language
 		2. Change county
 		3. Change name
