@@ -316,7 +316,7 @@ const settingMenu = async (textArray, language, user) => {
 	return response
 }
 
-const middleware = async (text, sessionId, phoneNumber) => {
+const middleware = async (text) => {
 	//return text returned from goBack function
 	return await exitMenu(goBack(goToMainMenu(text)))
 }

@@ -46,12 +46,12 @@ app.post('/', async (req, res) => {
 	// Read the variables sent via POST from our API
 	const { sessionId, serviceCode, phoneNumber, text } = req.body
 	const userIsRegistered = await isRegistered(phoneNumber)
-	const cleanText = await middleware(text, sessionId, phoneNumber)
+	const cleanText = await middleware(text)
 
 	let response = ''
 
 	//If user is not registered and cleanText is empty
-	if (cleanText == '' && !userIsRegistered) {
+	if (text == '' && !userIsRegistered) {
 		// This is the first request. Note how we start the response with CON
 		response = `CON Welcome to Afya Mama choose your language
         1. English
