@@ -52,9 +52,9 @@ app.post('/', async (req, res) => {
 	//If user is not registered and cleanText is empty
 	if (text == '' && !userIsRegistered) {
 		// This is the first request. Note how we start the response with CON
-		response = `CON What would you like to check
-        1. My account
-        2. My phone number`
+		response = `CON Welcome to Afya Mama choose your language
+        1. English
+        2. Kiswahili`
 	} else if (text == '1') {
 		// Business logic for first level response
 		response = `CON Choose account information you want to view
