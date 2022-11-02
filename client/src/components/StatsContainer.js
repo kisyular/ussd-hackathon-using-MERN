@@ -7,6 +7,7 @@ import {
 	FaSyringe,
 	FaViruses,
 	FaStethoscope,
+	FaHandHoldingHeart,
 } from 'react-icons/fa'
 import Wrapper from '../assets/wrappers/StatsContainer'
 
@@ -20,6 +21,7 @@ const StatsContainer = () => {
 			color: '#e9b949',
 			bcg: '#fcefc7',
 			infoRequest: aboutStats.symptomsInfoRequest || 0,
+			underline: true,
 		},
 		{
 			title: 'Treatment Info Added',
@@ -28,6 +30,7 @@ const StatsContainer = () => {
 			color: '#647acb',
 			bcg: '#e0e8f9',
 			infoRequest: aboutStats.treatmentInfoRequest || 0,
+			underline: true,
 		},
 		{
 			title: 'Diagnosis Info Added',
@@ -36,6 +39,7 @@ const StatsContainer = () => {
 			color: '#d66a6a',
 			bcg: '#ffeeee',
 			infoRequest: aboutStats.diagnosisInfoRequest || 0,
+			underline: true,
 		},
 		{
 			title: 'Prevention Info Added',
@@ -44,6 +48,7 @@ const StatsContainer = () => {
 			color: '#6a9d66',
 			bcg: '#e8f6ee',
 			infoRequest: aboutStats.preventionInfoRequest || 0,
+			underline: true,
 		},
 		{
 			title: 'Risk Factors Info Added',
@@ -52,20 +57,45 @@ const StatsContainer = () => {
 			color: '#f96b6a',
 			bcg: '#feeef0',
 			infoRequest: aboutStats.riskFactorsInfoRequest || 0,
+			underline: true,
 		},
 		{
 			title: 'Management Info Added',
 			count: aboutStats.management || 0,
 			icon: <FaFileMedicalAlt />,
-			color: '#8f5ad6',
-			bcg: '#f2e8f9',
-			infoRequest: aboutStats.managementInfoRequest || 0,
+			color: '#9E7676',
+			bcg: '#F8E0E0',
+			infoRequest:
+				aboutStats.management_afterInfoRequest ||
+				0 + aboutStats.management_duringInfoRequest ||
+				0,
+			underline: true,
 		},
 		{
-			icon: <FaFileMedicalAlt />,
+			title: 'GDM Definition Info Rquested',
+			icon: <FaHandHoldingHeart />,
+			//light pink color for definition info request
+			//light pink color for definition info request
 			color: '#8f5ad6',
 			bcg: '#f2e8f9',
 			infoRequest: aboutStats.definitionInfoRequest || 0,
+			underline: false,
+		},
+		{
+			title: 'Management During Pregnancy Info Rquested',
+			icon: <FaHandHoldingHeart />,
+			color: '#8f5ad6',
+			bcg: '#f2e8f9',
+			infoRequest: aboutStats.management_afterInfoRequest || 0,
+			underline: false,
+		},
+		{
+			title: 'Management After Pregnancy Info Rquested',
+			icon: <FaHandHoldingHeart />,
+			color: '#8f5ad6',
+			bcg: '#f2e8f9',
+			infoRequest: aboutStats.management_duringInfoRequest || 0,
+			underline: false,
 		},
 	]
 
