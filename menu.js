@@ -127,6 +127,12 @@ const gestationalDiabetesMenu = async (textArray, language, phoneNumber) => {
 			)
 			//remove 98. Go back from the response
 			await sendSMS(phoneNumber, response.replace('98. Go back', ''))
+			//save the info request to the database
+			const infoRequest = new InfoRequest({
+				requestedBy: user._id,
+				info: 'symptoms',
+			})
+			await infoRequest.save()
 		} else if (textArray[1] == 3) {
 			response = await translate(
 				`The following tests are used to know how your body is tolerating glucose;
@@ -135,6 +141,12 @@ const gestationalDiabetesMenu = async (textArray, language, phoneNumber) => {
 				language
 			)
 			await sendSMS(phoneNumber, response.replace('98. Go back', ''))
+			//save the info request to the database
+			const infoRequest = new InfoRequest({
+				requestedBy: user._id,
+				info: 'diagnosis',
+			})
+			await infoRequest.save()
 		} else if (textArray[1] == 4) {
 			response = await translate(
 				`You are likely to get gestational diabetes if your body mass index (BMI) is 30 or higher, you have previously given birth to a baby weighing 4.5 kg or more, have had gestational diabetes before, have a relative with diabetes, are of African, south Asian, or latino.
@@ -142,6 +154,12 @@ const gestationalDiabetesMenu = async (textArray, language, phoneNumber) => {
 				language
 			)
 			await sendSMS(phoneNumber, response.replace('98. Go back', ''))
+			//save the info request to the database
+			const infoRequest = new InfoRequest({
+				requestedBy: user._id,
+				info: 'risk factors',
+			})
+			await infoRequest.save()
 		} else if (textArray[1] == 5) {
 			response = await translate(
 				`If glucose levels are too high, anti diabetic medications will be given as well as insulin shots but mostly diet and exercise will be recommended.
@@ -149,6 +167,12 @@ const gestationalDiabetesMenu = async (textArray, language, phoneNumber) => {
 				language
 			)
 			await sendSMS(phoneNumber, response.replace('98. Go back', ''))
+			//save the info request to the database
+			const infoRequest = new InfoRequest({
+				requestedBy: user._id,
+				info: 'treatment',
+			})
+			await infoRequest.save()
 		} else if (textArray[1] == 6) {
 			response = await translate(
 				`You can prevent gestational diabetes by maintaining a healthy weight, regular testing for glucose level, eating a healthy diet, and exercising regularly.
@@ -156,6 +180,12 @@ const gestationalDiabetesMenu = async (textArray, language, phoneNumber) => {
 				language
 			)
 			await sendSMS(phoneNumber, response.replace('98. Go back', ''))
+			//save the info request to the database
+			const infoRequest = new InfoRequest({
+				requestedBy: user._id,
+				info: 'prevention',
+			})
+			await infoRequest.save()
 		} else if (textArray[1] == 7) {
 			response = await translate(
 				`
@@ -173,6 +203,12 @@ const gestationalDiabetesMenu = async (textArray, language, phoneNumber) => {
 				language
 			)
 			await sendSMS(phoneNumber, response.replace('98. Go back', ''))
+			//save the info request to the database
+			const infoRequest = new InfoRequest({
+				requestedBy: user._id,
+				info: 'management during pregnancy',
+			})
+			await infoRequest.save()
 		} else if (textArray[2] == 2) {
 			response = await translate(
 				`Breastfeed baby as their glucose may be low and monitor their sugar levels. Diabetes medications may be stopped after delivery. Monitor mothers glucose up to 6 months postpartum.
@@ -180,6 +216,12 @@ const gestationalDiabetesMenu = async (textArray, language, phoneNumber) => {
 				language
 			)
 			await sendSMS(phoneNumber, response.replace('98. Go back', ''))
+			//save the info request to the database
+			const infoRequest = new InfoRequest({
+				requestedBy: user._id,
+				info: 'management after pregnancy',
+			})
+			await infoRequest.save()
 		}
 	}
 
