@@ -6,12 +6,12 @@ const sendSMS = require('./utils/sms')
 let response = ''
 // change city to county in Kenya
 const mainMenuNotregistered = () => {
-	response = `Welcome to ${process.env.COMPANY_NAME}: To continue in English press 1 Kwa Kiswahili bonyeza 2
-	1:English
-	2:Kiswahili
-	3:Help and Emergency
-	4:Talk to health official
-	100:Exit`
+	response = `Welcome to ${process.env.COMPANY_NAME} To continue in English press 1 Kwa Kiswahili bonyeza 2
+	1 English
+	2 Kiswahili
+	3 Help and Emergency
+	4 Talk to health official
+	100 Exit`
 	return response
 }
 
