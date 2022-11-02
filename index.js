@@ -111,9 +111,9 @@ app.post('/', async (req, res) => {
 				'sw'
 			)}`
 		} else if (cleanText[0] == '3') {
-			response = `END Please call 999 112 or 911.`
+			response = `END Please call 999 112 or 911`
 		} else if (cleanText[0] == '4') {
-			response = `END Our plan was to connect the patient with a couple gyenacologist. If we move forward to the next phase, we will consult 4 gyenacologist for their services.`
+			response = `END Our plan was to connect the patient with a couple gyenacologist If we move forward to the next phase we will consult 4 gyenacologist for their services`
 		} else {
 			response = `END Invalid entry. Please try again`
 		}

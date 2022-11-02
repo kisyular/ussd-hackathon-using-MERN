@@ -75,6 +75,7 @@ export const initialState = {
 	page: 1,
 	aboutStats: {},
 	statusStats: {},
+	infoRequestStats: {},
 	monthlyApplications: [],
 	search: '',
 	searchStatus: 'all',
@@ -341,6 +342,7 @@ const AppProvider = ({ children }) => {
 		dispatch({ type: SHOW_STATS_BEGIN })
 		try {
 			const { data } = await authFetch('/info/stats')
+			console.log(data)
 			dispatch({
 				type: SHOW_STATS_SUCCESS,
 				payload: {

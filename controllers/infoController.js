@@ -159,21 +159,20 @@ const showStats = async (req, res) => {
 		treatment: about.treatment || 0,
 		diagnosis: about.diagnosis || 0,
 		risk_factors: about['risk factors'] || 0,
+		definitionInfoRequest: infoRequest.definition || 0,
+		symptomsInfoRequest: infoRequest.symptoms || 0,
+		preventionInfoRequest: infoRequest.prevention || 0,
+		treatmentInfoRequest: infoRequest.treatment || 0,
+		diagnosisInfoRequest: infoRequest.diagnosis || 0,
+		risk_factorsInfoRequest: infoRequest['risk factors'] || 0,
+		management_duringInfoRequest:
+			infoRequest['management during pregnancy'] || 0,
+		management_afterInfoRequest:
+			infoRequest['management after pregnancy'] || 0,
 	}
 	const defaultStatus = {
 		sent: status.sent || 0,
 		queued: status.queued || 0,
-	}
-
-	const defaultInfoRequest = {
-		definition: infoRequest.definition || 0,
-		symptoms: infoRequest.symptoms || 0,
-		prevention: infoRequest.prevention || 0,
-		treatment: infoRequest.treatment || 0,
-		diagnosis: infoRequest.diagnosis || 0,
-		risk_factors: infoRequest['risk factors'] || 0,
-		management_during: infoRequest['management during pregnancy'] || 0,
-		management_after: infoRequest['management after pregnancy'] || 0,
 	}
 
 	let monthlyApplications = await Info.aggregate([
@@ -213,7 +212,6 @@ const showStats = async (req, res) => {
 	res.status(StatusCodes.OK).json({
 		defaultAbout,
 		defaultStatus,
-		defaultInfoRequest,
 		monthlyApplications,
 	})
 }
