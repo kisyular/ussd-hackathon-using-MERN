@@ -45,6 +45,11 @@ app.use(cors())
 // Connect to MongoDB
 connectDB()
 
+app.use(function (req, res, next) {
+	res.setHeader('Content-Type', 'text/plain')
+	next()
+})
+
 //create a route for get request and respond with a message
 app.get('/', (req, res) => {
 	res.send('Welcome to the USSD API')
