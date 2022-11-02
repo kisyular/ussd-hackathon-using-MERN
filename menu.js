@@ -9,7 +9,7 @@ const mainMenuNotregistered = () => {
 	response = `Welcome to ${process.env.COMPANY_NAME}: To continue in English press 1 Kwa Kiswahili bonyeza 2
 	1:English
 	2:Kiswahili
-	3:Help! Emergency
+	3:Help Emergency
 	4:Talk to health official
 	100:Exit`
 	return response
