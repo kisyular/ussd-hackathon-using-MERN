@@ -17,6 +17,14 @@ const notFoundMiddleware = require('./middleware/not-found.js')
 const errorHandlerMiddleware = require('./middleware/error-handler.js')
 // const authenticateUser = require('./middleware/auth.js')
 
+// Import routes.
+const authRoutes = require('./routes/authRoutes.js')
+const infoRoutes = require('./routes/infoRoutes.js')
+
+//import user.js from util
+const { isRegistered } = require('./utils/user')
+const User = require('./models/user')
+
 //Connect to MongoDB
 connectDB()
 
@@ -50,6 +58,10 @@ app.post('/', (req, res) => {
 	res.set('Content-Type: text/plain')
 	res.send(response)
 })
+
+//Apply the routes
+app.use('/api/auth', authRoutes)
+app.use('/api/info', infoRoutes)
 
 //Apply the middleware
 app.use(notFoundMiddleware)
