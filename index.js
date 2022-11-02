@@ -55,7 +55,8 @@ app.post('/', async (req, res) => {
 		// This is the first request. Note how we start the response with CON
 		response = `CON Welcome to Afya Mama choose your language
         1. English
-        2. Kiswahili`
+        2. Kiswahili
+		3. Emergency`
 	} else if (text == '1') {
 		// Business logic for first level response
 		response = `CON Choose account information you want to view
