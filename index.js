@@ -51,7 +51,7 @@ app.post('/', async (req, res) => {
 	let response = ''
 
 	//If user is not registered and cleanText is empty
-	if (text == '' && !userIsRegistered) {
+	if (cleanText == '' && !userIsRegistered) {
 		// This is the first request. Note how we start the response with CON
 		response = `CON Welcome to Afya Mama choose your language
         1. English
