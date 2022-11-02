@@ -42,11 +42,6 @@ if (process.env.NODE_ENV !== 'production') {
 app.use(mongoSanitize())
 app.use(cors())
 
-app.use(function (req, res, next) {
-	res.setHeader('Content-Type', 'text/plain')
-	next()
-})
-
 // Connect to MongoDB
 connectDB()
 
@@ -118,6 +113,7 @@ app.post('/', async (req, res) => {
 			response = `END Invalid entry. Please try again`
 		}
 	}
+	res.set('Content-Type: text/plain')
 	res.send(response)
 })
 //Routers
