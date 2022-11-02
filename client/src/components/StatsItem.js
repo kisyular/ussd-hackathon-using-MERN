@@ -11,7 +11,12 @@ function StatItem({ count, title, icon, color, bcg, infoRequest, underline }) {
 			{underline && (
 				<>
 					<hr />
-					<span>Number of requests for this info {infoRequest}</span>
+					<div>
+						Number of requests for this info{' '}
+						<strong style={{ color: color, fontWeight: 'bolder' }}>
+							{infoRequest}
+						</strong>
+					</div>
 				</>
 			)}
 		</Wrapper>
