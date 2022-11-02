@@ -12,6 +12,14 @@ require('dotenv').config()
 require('express-async-errors')
 const morgan = require('morgan')
 
+// Import middleware.
+const notFoundMiddleware = require('./middleware/not-found.js')
+const errorHandlerMiddleware = require('./middleware/error-handler.js')
+// const authenticateUser = require('./middleware/auth.js')
+
+//Connect to MongoDB
+connectDB()
+
 app.post('/', (req, res) => {
 	// Read the variables sent via POST from our API
 	const { sessionId, serviceCode, phoneNumber, text } = req.body
@@ -42,6 +50,10 @@ app.post('/', (req, res) => {
 	res.set('Content-Type: text/plain')
 	res.send(response)
 })
+
+//Apply the middleware
+app.use(notFoundMiddleware)
+app.use(errorHandlerMiddleware)
 
 //Add port to listen to
 const port = process.env.PORT || 8080
