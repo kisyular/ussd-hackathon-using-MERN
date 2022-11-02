@@ -43,7 +43,7 @@ app.use(mongoSanitize())
 app.use(cors())
 
 app.use(function (req, res, next) {
-	res.setHeader('Content-Type', 'text/json')
+	res.setHeader('Content-Type', 'text/plain')
 	next()
 })
 
