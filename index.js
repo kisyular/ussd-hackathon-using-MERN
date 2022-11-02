@@ -5,6 +5,13 @@ const app = express()
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
+const mongoSanitize = require('express-mongo-sanitize')
+const cors = require('cors')
+const connectDB = require('./config/db.js')
+require('dotenv').config()
+require('express-async-errors')
+const morgan = require('morgan')
+
 app.post('/', (req, res) => {
 	// Read the variables sent via POST from our API
 	const { sessionId, serviceCode, phoneNumber, text } = req.body
