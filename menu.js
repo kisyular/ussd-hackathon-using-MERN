@@ -4,14 +4,14 @@ const translate = require('./utils/translate')
 const sendSMS = require('./utils/sms')
 
 let response = ''
-// change city to county in Kenya
 const mainMenuNotregistered = () => {
-	response = `Welcome to ${process.env.COMPANY_NAME} To continue in English press 1 Kwa Kiswahili bonyeza 2
-	1 English
-	2 Kiswahili
-	3 Help and Emergency
-	4 Talk to health official
-	100 Exit`
+	// response = `Welcome to Afya Mama To continue in English press 1 Kwa Kiswahili bonyeza 2
+	// 1 English
+	// 2 Kiswahili
+	// 3 Help and Emergency
+	// 4 Talk to health official
+	// 100 Exit`
+	response = `CON Welcome to Afya Mama`
 	return response
 }
 
@@ -19,7 +19,7 @@ const registerMenu = async (textArray, phoneNumber, language) => {
 	const count = textArray.length
 	if (count == 1) {
 		response = await translate(
-			`${process.env.COMPANY_NAME} empowers pregnant mothers with knowledge on hypertensive disorders during pregnancy
+			`Afya Mama empowers pregnant mothers with knowledge on hypertensive disorders during pregnancy
 			1:Register
 			98:Go back
 			99:Go to main menu
@@ -55,14 +55,14 @@ const registerMenu = async (textArray, phoneNumber, language) => {
 		try {
 			await user.save()
 			response = await translate(
-				`Thank you for registering with ${process.env.COMPANY_NAME} We will keep you updated on the latest news and information`,
+				`Thank you for registering with Afya Mama We will keep you updated on the latest news and information`,
 				language
 			)
 			sendSMS(phoneNumber, response)
 			//delete the ussdSession from the database
 			await USSDLevel.deleteMany({ phoneNumber })
 			response = await translate(
-				`Thank you ${name} for registering with ${process.env.COMPANY_NAME} You will receive an SMS shortly
+				`Thank you ${name} for registering with Afya Mama You will receive an SMS shortly
 			99:Go to main menu`,
 				language
 			)
@@ -79,7 +79,7 @@ const registerMenu = async (textArray, phoneNumber, language) => {
 
 const mainMenuRegistered = async (name, language) => {
 	response = await translate(
-		`CON Welcome ${name}, ${process.env.COMPANY_NAME} empowers pregnant mothers with knowledge on hypertensive disorders during pregnancy
+		`CON Welcome ${name}, Afya Mama empowers pregnant mothers with knowledge on hypertensive disorders during pregnancy
 		1:Learn about Gestational Diabetes
 		2:Change settings
 		3:Subscribe to SMS
