@@ -12,6 +12,9 @@ require('dotenv').config()
 require('express-async-errors')
 const morgan = require('morgan')
 
+//Use cors to allow cross origin resource sharing
+app.use(cors())
+
 // Import middleware.
 const notFoundMiddleware = require('./middleware/not-found.js')
 const errorHandlerMiddleware = require('./middleware/error-handler.js')
@@ -25,16 +28,29 @@ const infoRoutes = require('./routes/infoRoutes.js')
 const { isRegistered } = require('./utils/user')
 const User = require('./models/user')
 
+//import menu.js
+const {
+	mainMenuRegistered,
+	mainMenuNotregistered,
+	registerMenu,
+	middleware,
+	gestationalDiabetesMenu,
+	settingMenu,
+	subscribeMenu,
+} = require('./menu')
+
 //Connect to MongoDB
 connectDB()
 
-app.post('/', (req, res) => {
+app.post('/', async (req, res) => {
 	// Read the variables sent via POST from our API
 	const { sessionId, serviceCode, phoneNumber, text } = req.body
+	const userIsRegistered = await isRegistered(phoneNumber)
 
 	let response = ''
 
-	if (text == '') {
+	//If user is not registered and cleanText is empty
+	if (text == '' && !userIsRegistered) {
 		// This is the first request. Note how we start the response with CON
 		response = `CON What would you like to check
         1. My account
