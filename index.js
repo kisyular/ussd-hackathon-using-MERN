@@ -73,7 +73,7 @@ app.post('/', async (req, res) => {
 	}
 
 	//If user is registered and cleanText is empty
-	else if (cleanText == '' && userIsRegistered) {
+	else if (userIsRegistered && cleanText == '') {
 		const language = user.language
 		//pass language to the mainMenuRegistered function
 		response = await mainMenuRegistered(user.name, language)
