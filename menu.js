@@ -5,13 +5,7 @@ const sendSMS = require('./utils/sms')
 
 let response = ''
 const mainMenuNotregistered = () => {
-	// response = `Welcome to Afya Mama To continue in English press 1 Kwa Kiswahili bonyeza 2
-	// 1 English
-	// 2 Kiswahili
-	// 3 Help and Emergency
-	// 4 Talk to health official
-	// 100 Exit`
-	response = `CON Welcome to Afya Mama`
+	response = `Welcome to Afya Mama choose your language 1: English 2: Kiswahili 3: Help and Emergency 4: Talk to health official 100: Exit`
 	return response
 }
 
