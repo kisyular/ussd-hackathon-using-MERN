@@ -57,8 +57,7 @@ app.post('/', async (req, res) => {
         1. English
         2. Kiswahili
 		3. Emergency
-		4. Talk to health worker
-		100. Exit`
+		4. Talk to health worker`
 	} else if (text == '1') {
 		// Business logic for first level response
 		response = `CON Choose account information you want to view
