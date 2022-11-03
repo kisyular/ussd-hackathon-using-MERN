@@ -260,7 +260,7 @@ const sendSMStoSubscribers = async (req, res) => {
 	res.status(StatusCodes.OK).json({ msg: 'Success! SMS sent' })
 }
 
-module.exports = {
+const getInfoRequests = (module.exports = {
 	createInfo,
 	getAllInfo,
 	deleteInfo,
@@ -269,4 +269,4 @@ module.exports = {
 	getSubscribers,
 	sendSMStoSubscribers,
 	markInfoSend,
-}
+})

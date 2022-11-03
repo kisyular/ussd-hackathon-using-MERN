@@ -1,4 +1,5 @@
 import Wrapper from '../assets/wrappers/StatItem'
+import { Link } from 'react-router-dom'
 
 function StatItem({ count, title, icon, color, bcg, infoRequest, underline }) {
 	return (
@@ -13,9 +14,18 @@ function StatItem({ count, title, icon, color, bcg, infoRequest, underline }) {
 					<hr />
 					<div>
 						Number of requests for this info{' '}
-						<strong style={{ color: color, fontWeight: 'bolder' }}>
+						<Link
+							className='btn btn-info'
+							style={{
+								background: color,
+								fontWeight: 'bolder',
+								minWidth: '4rem',
+							}}
+							to='/info-requests'
+							onClick={() => console.log("I'm here")}
+						>
 							{infoRequest}
-						</strong>
+						</Link>
 					</div>
 				</>
 			)}
