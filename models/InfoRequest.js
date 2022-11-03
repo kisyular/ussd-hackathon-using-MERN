@@ -13,6 +13,7 @@ const InfoRequestSchema = new Schema(
 		info: {
 			type: String,
 			enum: [
+				'definition',
 				'symptoms',
 				'diagnosis',
 				'treatment',
