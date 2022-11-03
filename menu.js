@@ -8,8 +8,8 @@ const mainMenuNotregistered = () => {
 	response = `Welcome to Afya Mama
 	1. English 
 	2. Kiswahili 
-	3. Help 
-	4. Talk to health official 
+	3. Emergency 
+	4. Chat
 	111. Exit`
 	return response
 }
