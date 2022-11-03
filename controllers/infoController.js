@@ -260,7 +260,15 @@ const sendSMStoSubscribers = async (req, res) => {
 	res.status(StatusCodes.OK).json({ msg: 'Success! SMS sent' })
 }
 
-const getInfoRequests = (module.exports = {
+const getUserRequests = async (req, res) => {
+	const { infotype } = req.body
+	const userInfoRequests = await InfoRequest.find({
+		info: infotype,
+	}).populate('requestedBy')
+	res.status(StatusCodes.OK).json({ userInfoRequests })
+}
+
+module.exports = {
 	createInfo,
 	getAllInfo,
 	deleteInfo,
@@ -269,4 +277,5 @@ const getInfoRequests = (module.exports = {
 	getSubscribers,
 	sendSMStoSubscribers,
 	markInfoSend,
-})
+	getUserRequests,
+}
