@@ -10,7 +10,7 @@ const mainMenuNotregistered = () => {
 	2. Kiswahili 
 	3. Emergency 
 	4. Chat
-	111. Exit`
+	77. Exit`
 	return response
 }
 
@@ -22,7 +22,7 @@ const registerMenu = async (textArray, phoneNumber, language) => {
 		1. Register
 		88. Go back
 		99. Go to main menu
-		111. Exit`,
+		77. Exit`,
 			language
 		)
 	} else if (count == 2 && textArray[1] == 1) {
@@ -80,7 +80,7 @@ const mainMenuRegistered = async (name, language) => {
 		1. Learn about Gestational Diabetes
 		2. Change settings
 		3. Subscribe to SMS
-		111. Exit`,
+		77. Exit`,
 		language
 	)
 	return response
@@ -351,7 +351,7 @@ const subscribeMenu = async (textArray, user, language) => {
 			2. Monthly
 			3. Unsubscribe
 			88. Go back
-			111. Exit`,
+			77. Exit`,
 			language
 		)
 	} else if (level === 2) {
@@ -362,7 +362,7 @@ const subscribeMenu = async (textArray, user, language) => {
 			response = await translate(
 				`CON You have been subscribed to receive weekly tips
 				99. Go to main menu
-				111. Exit`,
+				77. Exit`,
 				language
 			)
 		} else if (textArray[1] == 2) {
@@ -372,7 +372,7 @@ const subscribeMenu = async (textArray, user, language) => {
 			response = await translate(
 				`CON You have been subscribed to receive monthly tips
 				99. Go to main menu
-				111. Exit`,
+				77. Exit`,
 				language
 			)
 		} else if (textArray[1] == 3) {
@@ -382,7 +382,7 @@ const subscribeMenu = async (textArray, user, language) => {
 			response = await translate(
 				`CON You have been unsubscribed
 				99. Go to main menu
-				111. Exit`,
+				77. Exit`,
 				language
 			)
 		}
@@ -432,8 +432,8 @@ const exitMenu = async (text, language) => {
 	if (text) {
 		//split the text into an array using * as a delimiter
 		const textArray = text.split('*')
-		//search for the last 111 in the array and remove it and all elements before it
-		const index = textArray.lastIndexOf('111')
+		//search for the last 77 in the array and remove it and all elements before it
+		const index = textArray.lastIndexOf('77')
 		if (index > -1) {
 			return `EXITMENU`
 		}
