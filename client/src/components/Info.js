@@ -100,7 +100,7 @@ const Info = ({
 							type='button'
 							to={_id}
 							className='btn view-btn'
-							onClick={() => getSubscribers(information)}
+							onClick={() => getSubscribers(information, status)}
 						>
 							{status === 'sent' ? 'Resend' : 'Send'}
 						</Link>

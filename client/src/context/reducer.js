@@ -34,6 +34,7 @@ import {
 	CLEAR_INFO_AFTER_SENDING,
 	SET_STATUS_SENT_BEGIN,
 	SET_STATUS_SENT_SUCCESS,
+	SET_INFO_TO_SEND_STATUS,
 } from './actions'
 import { initialState } from './appContext'
 
@@ -275,6 +276,10 @@ const reducer = (state, action) => {
 
 	if (action.type === SET_INFO_TO_SEND) {
 		return { ...state, infoToSend: action.payload.infoToSend }
+	}
+
+	if (action.type === SET_INFO_TO_SEND_STATUS) {
+		return { ...state, infoToSendStatus: action.payload.infoToSendStatus }
 	}
 
 	if (action.type === SEND_INFO_BEGIN) {

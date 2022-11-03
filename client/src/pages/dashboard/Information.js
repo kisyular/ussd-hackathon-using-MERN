@@ -17,6 +17,7 @@ const Information = () => {
 		sendInfo,
 		showAlert,
 		markStatusSent,
+		infoToSendStatus,
 	} = useAppContext()
 	const navigate = useNavigate()
 	const { id } = useParams()
@@ -61,7 +62,9 @@ const Information = () => {
 						className='btn view-btn'
 						onClick={startInfoSending}
 					>
-						Send Information
+						{infoToSendStatus === 'sent'
+							? 'Resend Information'
+							: 'Send Information'}
 					</button>
 					<button
 						onClick={() => navigate(-1)}

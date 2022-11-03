@@ -38,6 +38,7 @@ import {
 	CLEAR_INFO_AFTER_SENDING,
 	SET_STATUS_SENT_BEGIN,
 	SET_STATUS_SENT_SUCCESS,
+	SET_INFO_TO_SEND_STATUS,
 } from './actions'
 
 // set as default
@@ -87,6 +88,7 @@ export const initialState = {
 	sortOptions: ['latest', 'oldest', 'a-z', 'z-a'],
 	subscribers: [],
 	infoToSend: '',
+	infoToSendStatus: '',
 }
 const BASE_URL = 'https://ussd-hackathon.azurewebsites.net/api'
 // const BASE_URL = 'http://localhost:8080/api'
@@ -371,9 +373,17 @@ const AppProvider = ({ children }) => {
 		dispatch({ type: SET_INFO_TO_SEND, payload: { infoToSend } })
 	}
 
-	const getSubscribers = async (infoToSend) => {
+	const setInfoToSendStatus = (infoToSendStatus) => {
+		dispatch({
+			type: SET_INFO_TO_SEND_STATUS,
+			payload: { infoToSendStatus },
+		})
+	}
+
+	const getSubscribers = async (infoToSend, infoToSendStatus) => {
 		dispatch({ type: GET_SUBSCRIBERS_BEGIN })
 		setInfoToSend(infoToSend)
+		setInfoToSendStatus(infoToSendStatus)
 		try {
 			const { data } = await authFetch('info/subscribers')
 			dispatch({
