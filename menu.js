@@ -58,8 +58,6 @@ const registerMenu = async (textArray, phoneNumber, language) => {
 				language
 			)
 			sendSMS(phoneNumber, response)
-			//delete the ussdSession from the database
-			await USSDLevel.deleteMany({ phoneNumber })
 			response = await translate(
 				`Thank you ${name} for registering with Afya Mama You will receive an SMS shortly
 			99:Go to main menu`,
