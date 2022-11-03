@@ -9,8 +9,7 @@ const mainMenuNotregistered = () => {
 	1. English 
 	2. Kiswahili 
 	3. Emergency 
-	4. Chat
-	77. Exit`
+	4. Chat`
 	return response
 }
 
