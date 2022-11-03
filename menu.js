@@ -125,7 +125,11 @@ const gestationalDiabetesMenu = async (textArray, language, phoneNumber) => {
 				language
 			)
 			//remove 98. Go back from the response
-			await sendSMS(phoneNumber, response.replace('98. Go back', ''))
+			const sms = await sendSMS(
+				phoneNumber,
+				response.replace('98. Go back', '')
+			)
+			console.log('SMS: ', sms)
 			//save the info request to the database
 			const infoRequest = new InfoRequest({
 				requestedBy: user._id,

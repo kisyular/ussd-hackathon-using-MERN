@@ -17,6 +17,7 @@ const sendSMS = async (phoneNumber, message) => {
 		const response = await sms.send({ to: phoneNumber, message })
 		return response
 	} catch (error) {
+		console.log(error)
 		return null
 	}
 }
