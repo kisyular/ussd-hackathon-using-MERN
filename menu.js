@@ -80,7 +80,7 @@ const mainMenuRegistered = async (name, language) => {
 		1. Learn about Gestational Diabetes
 		2. Change settings
 		3. Subscribe to SMS
-		4. Exit`,
+		100. Exit`,
 		language
 	)
 	return response
