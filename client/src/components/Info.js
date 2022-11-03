@@ -102,7 +102,7 @@ const Info = ({
 							className='btn view-btn'
 							onClick={() => getSubscribers(information)}
 						>
-							Send Info
+							{status === 'sent' ? 'Resend' : 'Send'}
 						</Link>
 					</div>
 				</footer>

@@ -66,9 +66,8 @@ const StatsContainer = () => {
 			color: '#9E7676',
 			bcg: '#F8E0E0',
 			infoRequest:
-				aboutStats.management_afterInfoRequest ||
-				0 + aboutStats.management_duringInfoRequest ||
-				0,
+				aboutStats.management_afterInfoRequest +
+					aboutStats.management_duringInfoRequest || 0,
 			underline: true,
 		},
 		{

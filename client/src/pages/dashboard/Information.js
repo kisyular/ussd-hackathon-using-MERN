@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import Card from 'react-bootstrap/Card'
 import Loading from '../../components/Loading'
 import Alert from '../../components/Alert'
+import { useParams } from 'react-router-dom'
 
 const Information = () => {
 	const {
@@ -15,8 +16,10 @@ const Information = () => {
 		isLoading,
 		sendInfo,
 		showAlert,
+		markStatusSent,
 	} = useAppContext()
 	const navigate = useNavigate()
+	const { id } = useParams()
 
 	useEffect(() => {
 		if (!subscribers || !infoToSend) {
@@ -27,6 +30,12 @@ const Information = () => {
 	if (isLoading) {
 		return <Loading center />
 	}
+
+	const startInfoSending = () => {
+		sendInfo()
+		markStatusSent(id)
+	}
+
 	return (
 		<Wrapper>
 			{showAlert && <Alert />}
@@ -50,7 +59,7 @@ const Information = () => {
 					<button
 						style={{ marginRight: '10px' }}
 						className='btn view-btn'
-						onClick={sendInfo}
+						onClick={startInfoSending}
 					>
 						Send Information
 					</button>

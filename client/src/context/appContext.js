@@ -36,6 +36,8 @@ import {
 	SEND_INFO_SUCCESS,
 	SEND_INFO_ERROR,
 	CLEAR_INFO_AFTER_SENDING,
+	SET_STATUS_SENT_BEGIN,
+	SET_STATUS_SENT_SUCCESS,
 } from './actions'
 
 // set as default
@@ -342,7 +344,6 @@ const AppProvider = ({ children }) => {
 		dispatch({ type: SHOW_STATS_BEGIN })
 		try {
 			const { data } = await authFetch('/info/stats')
-			console.log(data)
 			dispatch({
 				type: SHOW_STATS_SUCCESS,
 				payload: {
@@ -421,6 +422,21 @@ const AppProvider = ({ children }) => {
 		clearAlert()
 	}
 
+	const markStatusSent = async (id) => {
+		dispatch({ type: SET_STATUS_SENT_BEGIN })
+		try {
+			await authFetch.patch(`/info/mark/${id}`)
+			dispatch({
+				type: SET_STATUS_SENT_SUCCESS,
+			})
+			getInfo()
+		} catch (error) {
+			console.log(error.response)
+			logoutUser()
+		}
+		clearAlert()
+	}
+
 	return (
 		<AppContext.Provider
 			value={{
@@ -443,6 +459,7 @@ const AppProvider = ({ children }) => {
 				getSubscribers,
 				setInfoToSend,
 				sendInfo,
+				markStatusSent,
 			}}
 		>
 			{children}

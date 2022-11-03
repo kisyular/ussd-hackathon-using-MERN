@@ -32,6 +32,8 @@ import {
 	SEND_INFO_SUCCESS,
 	SEND_INFO_ERROR,
 	CLEAR_INFO_AFTER_SENDING,
+	SET_STATUS_SENT_BEGIN,
+	SET_STATUS_SENT_SUCCESS,
 } from './actions'
 import { initialState } from './appContext'
 
@@ -299,6 +301,20 @@ const reducer = (state, action) => {
 	}
 	if (action.type === CLEAR_INFO_AFTER_SENDING) {
 		return { ...state, infoToSend: '', subscribers: [] }
+	}
+
+	if (action.type === SET_STATUS_SENT_BEGIN) {
+		return { ...state, isLoading: true }
+	}
+
+	if (action.type === SET_STATUS_SENT_SUCCESS) {
+		return {
+			...state,
+			isLoading: false,
+			showAlert: true,
+			alertType: 'success',
+			alertText: 'Status Updated!',
+		}
 	}
 }
 
