@@ -76,10 +76,10 @@ const registerMenu = async (textArray, phoneNumber, language) => {
 
 const mainMenuRegistered = async (name, language) => {
 	response = await translate(
-		`CON Welcome ${name}, to Afya Mama
-		1. Learn about Gestational Diabetes
-		2. Change settings
-		3. Subscribe to SMS
+		`CON Welcome ${name} to Afya Mama
+		1. What is Gestational Diabetes
+		2. Settings
+		3. Subscribe
 		77. Exit`,
 		language
 	)
@@ -111,7 +111,10 @@ const gestationalDiabetesMenu = async (textArray, language, phoneNumber) => {
 			)
 			await sendSMS(
 				phoneNumber,
-				'A type of diabetes that onsets mid or late pregnancy as the body cannot produce enough of the hormone that controls blood glucose and mothers report high glucose levels for the first time'
+				await translate(
+					'A type of diabetes that onsets mid or late pregnancy as the body cannot produce enough of the hormone that controls blood glucose and mothers report high glucose levels for the first time',
+					language
+				)
 			)
 			//save the info request to the database
 			const infoRequest = new InfoRequest({
@@ -128,7 +131,10 @@ const gestationalDiabetesMenu = async (textArray, language, phoneNumber) => {
 			//remove 88. Go back from the response
 			const sms = await sendSMS(
 				phoneNumber,
-				'Gestational diabetes usually does not have any symptoms but look out for heightened symptoms of pregnancy and repetitive yeast infections'
+				await translate(
+					'Gestational diabetes usually does not have any symptoms but look out for heightened symptoms of pregnancy and repetitive yeast infections',
+					language
+				)
 			)
 			console.log('SMS: ', sms)
 			//save the info request to the database
@@ -145,7 +151,10 @@ const gestationalDiabetesMenu = async (textArray, language, phoneNumber) => {
 			)
 			await sendSMS(
 				phoneNumber,
-				'The following tests are used to know how your body is tolerating glucose; Fasting blood sugar, random blood sugar, urine  glucose, glycosylated hemoglobin test'
+				await translate(
+					'The following tests are used to know how your body is tolerating glucose; Fasting blood sugar, random blood sugar, urine  glucose, glycosylated hemoglobin test',
+					language
+				)
 			)
 			//save the info request to the database
 			const infoRequest = new InfoRequest({
@@ -161,7 +170,10 @@ const gestationalDiabetesMenu = async (textArray, language, phoneNumber) => {
 			)
 			await sendSMS(
 				phoneNumber,
-				'You are likely to get gestational diabetes if your body mass index (BMI) is 30 or higher, you have previously given birth to a baby weighing 4.5 kg or more, have had gestational diabetes before, have a relative with diabetes, are of African, south Asian, or latino.'
+				await translate(
+					'You are likely to get gestational diabetes if your body mass index (BMI) is 30 or higher, you have previously given birth to a baby weighing 4.5 kg or more, have had gestational diabetes before, have a relative with diabetes, are of African, south Asian, or latino.',
+					language
+				)
 			)
 			//save the info request to the database
 			const infoRequest = new InfoRequest({
@@ -177,7 +189,10 @@ const gestationalDiabetesMenu = async (textArray, language, phoneNumber) => {
 			)
 			await sendSMS(
 				phoneNumber,
-				'If glucose levels are too high, anti diabetic medications will be given as well as insulin shots but mostly diet and exercise will be recommended.'
+				await translate(
+					'If glucose levels are too high, anti diabetic medications will be given as well as insulin shots but mostly diet and exercise will be recommended.',
+					language
+				)
 			)
 			//save the info request to the database
 			const infoRequest = new InfoRequest({
@@ -193,7 +208,10 @@ const gestationalDiabetesMenu = async (textArray, language, phoneNumber) => {
 			)
 			await sendSMS(
 				phoneNumber,
-				'You can prevent gestational diabetes by maintaining a healthy weight, regular testing for glucose level, eating a healthy diet, and exercising regularly.'
+				await translate(
+					'You can prevent gestational diabetes by maintaining a healthy weight, regular testing for glucose level, eating a healthy diet, and exercising regularly.',
+					language
+				)
 			)
 			//save the info request to the database
 			const infoRequest = new InfoRequest({
@@ -218,7 +236,10 @@ const gestationalDiabetesMenu = async (textArray, language, phoneNumber) => {
 			)
 			await sendSMS(
 				phoneNumber,
-				'Perform regular glucose tests, attend all your antenatal visits, eat a balanced diet and exercise regularly and take all medicines prescribed diligently.'
+				await translate(
+					'Perform regular glucose tests, attend all your antenatal visits, eat a balanced diet and exercise regularly and take all medicines prescribed diligently.',
+					language
+				)
 			)
 			//save the info request to the database
 			const infoRequest = new InfoRequest({
@@ -234,7 +255,10 @@ const gestationalDiabetesMenu = async (textArray, language, phoneNumber) => {
 			)
 			await sendSMS(
 				phoneNumber,
-				'Breastfeed baby as their glucose may be low and monitor their sugar levels. Diabetes medications may be stopped after delivery. Monitor mothers glucose up to 6 months postpartum.'
+				await translate(
+					'Breastfeed baby as their glucose may be low and monitor their sugar levels. Diabetes medications may be stopped after delivery. Monitor mothers glucose up to 6 months postpartum.',
+					language
+				)
 			)
 			//save the info request to the database
 			const infoRequest = new InfoRequest({
