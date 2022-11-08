@@ -1,5 +1,7 @@
 # AFYA-MAMA
 
+### Strengthening digital health literacy and awareness on gestational diabetes (GDM) through an innovative USSD based application.
+
 ## Add Information to Share With Your USSD Subscribers
 
 Project in Action - [AFYA-MAMA](https://afyamama.kisyula.com/)
