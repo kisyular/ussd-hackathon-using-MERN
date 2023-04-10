@@ -14,7 +14,7 @@ const register = async (req, res) => {
 	// }
 
 	// const admin = new Admin({ name, email, password }) // this is used to find the admin in the database. If the admin is not found, then it will create a new admin.
-	const adminAlreadyExists = await Admin.findOne({ email })
+	const adminAlreadyExists = await Admin.findOne({ email }).exec()
 	if (adminAlreadyExists) {
 		throw new BadRequestError('Email already in use')
 	}
@@ -43,7 +43,7 @@ const login = async (req, res) => {
 		throw new BadRequestError('Please provide all values')
 	}
 	// Used to find the admin in the database. If the admin is found, then it will select the admin and the password.
-	const admin = await Admin.findOne({ email }).select('+password')
+	const admin = await Admin.findOne({ email }).select('+password').exec()
 
 	// Used to check if the admin is found. If the admin is not found, then it will throw an error.
 	if (!admin) {
@@ -67,7 +67,7 @@ const updateAdmin = async (req, res) => {
 		throw new BadRequestError('Please provide all values')
 	}
 	// Used to find the admin in the database. If the admin is found, then it will update the admin.
-	const admin = await Admin.findOne({ _id: req.user.userId })
+	const admin = await Admin.findOne({ _id: req.user.userId }).exec()
 	if (!admin) {
 		console.log('Admin not found')
 		// throw new UnAuthenticatedError('Invalid Credentials')

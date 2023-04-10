@@ -1,15 +1,14 @@
-import { readFile } from 'fs/promises'
-import dotenv from 'dotenv'
-dotenv.config()
+const { readFile } = require('fs/promises')
+require('dotenv').config()
 
-import connectDB from './config/db.js'
-import Info from './models/Info.js'
+const connectDB = require('./config/db.js')
+const Info = require('./models/Info.js')
 
 const start = async () => {
 	//Connect to the database
 	connectDB()
 	try {
-		// await Job.deleteMany()
+		await Job.deleteMany()
 		const jsonProducts = JSON.parse(
 			await readFile(new URL('./mock-data.json', import.meta.url))
 		)
