@@ -8,7 +8,7 @@ const {
 const checkPermissions = require('../utils/checkPermissions.js')
 const mongoose = require('mongoose')
 const moment = require('moment')
-const User = require('../models/user')
+const User = require('../models/User')
 const sendSMS = require('../utils/sms')
 const translate = require('../utils/translate')
 const InfoRequest = require('../models/InfoRequest')

@@ -1,5 +1,5 @@
 //import user.js from models
-const User = require('../models/user')
+const User = require('../models/User')
 
 //check if user is registered using phone number
 const isRegistered = async (phoneNumber) => {

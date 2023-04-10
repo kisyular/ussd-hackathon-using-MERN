@@ -26,7 +26,7 @@ const infoRoutes = require('./routes/infoRoutes.js')
 
 //import user.js from util
 const { isRegistered } = require('./utils/user')
-const User = require('./models/user')
+const User = require('./models/User')
 
 //import menu.js
 const {

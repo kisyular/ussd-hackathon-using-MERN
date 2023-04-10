@@ -1,4 +1,4 @@
-const User = require('./models/user')
+const User = require('./models/User')
 const InfoRequest = require('./models/InfoRequest')
 const translate = require('./utils/translate')
 const sendSMS = require('./utils/sms')
